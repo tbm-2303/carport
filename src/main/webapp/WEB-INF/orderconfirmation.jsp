@@ -23,7 +23,7 @@
 
 
             <c:if test="${sessionScope.role == 'customer' }">
-            <p><a href="${pageContext.request.contextPath}/fc/custcarportCommand">order a custom carport</a>
+            <p><a href="fc/custcarportCommand">order a custom carport</a>
                 </c:if>
 
                 <c:if test="${sessionScope.role == 'employee' }">

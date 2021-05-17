@@ -13,6 +13,12 @@
         <h1>Hello ${sessionScope.email} </h1>
         You are now logged in as a Customer of our wonderful site.
         Role: ${sessionScope.role}
+
+
+        <c:if test="${sessionScope.role == 'employee' }">
+            <p><a href="fc/custcarportCommand">order a custom carport</a>
+        </c:if>
+
     </jsp:body>
 
 </t:genericpage>
