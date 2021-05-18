@@ -1,15 +1,6 @@
+
 package web.commands;
 
-import business.entities.Requesty;
-import business.entities.User;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class UpdateCommand extends CommandProtectedPage {
 
@@ -17,7 +8,7 @@ public class UpdateCommand extends CommandProtectedPage {
     public UpdateCommand(String pageToShow, String role) {
         super(pageToShow, role);
     }
-
+/*
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -39,19 +30,21 @@ public class UpdateCommand extends CommandProtectedPage {
         }
         String confirm = request.getParameter("confirm");
         if (confirm != null) {
-            Requesty request2 = RL1.get(Integer.parseInt(confirm));
-            List<Requesty> offerlist = (List<Requesty>) request.getServletContext().getAttribute("offerList");
-            if (offerlist == null) {
-                offerlist = new ArrayList<>();
-            }
-            offerlist.add(request2);
-            servletContext.setAttribute("offerList", offerlist);
-            RL1.remove(Integer.parseInt(confirm));
+            //Requesty request2 = RL1.get(Integer.parseInt(confirm));
+            //List<Requesty> offerlist = (List<Requesty>) request.getServletContext().getAttribute("offerList");
+           //if (offerlist == null) {
+             //   offerlist = new ArrayList<>();
+            //}
+           // offerlist.add(request2);
+           // servletContext.setAttribute("offerList", offerlist);
+            //RL1.remove(Integer.parseInt(confirm));
         }
         request.getServletContext().setAttribute("requestList", RL1);
         return pageToShow;
     }
 
+     */
 
 }
+
 

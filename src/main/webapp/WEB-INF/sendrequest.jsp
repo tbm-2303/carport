@@ -5,7 +5,6 @@
 <t:genericpage>
 
     <jsp:attribute name="header">
-         Home
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -21,7 +20,7 @@
                         <div class="form-group">
                             <label class="form-check-label" for="length">Length:</label>
                             <select class="form-control" name="length" id="length">
-                                <c:forEach var="var" begin="240" end="780" step="30">
+                                <c:forEach var="var" begin="2400" end="7800" step="300">
                                     <option value="${var}">${var}cm</option>
                                 </c:forEach>
                             </select>
@@ -33,7 +32,7 @@
                         <div class="form-group">
                             <label class="form-check-label" for="width"> Width</label>
                             <select class="form-control" name="width" id="width">
-                                <c:forEach var="var" begin="240" end="750" step="30">
+                                <c:forEach var="var" begin="2400" end="7500" step="300">
                                     <option value="${var}">${var}cm</option>
                                 </c:forEach>
                             </select>
@@ -47,7 +46,7 @@
                         <label class="form-check-label" for="shed_length">Length:</label>
                         <select class="form-control" name="shed_length" id="shed_length">
                             <option value="0">No Shed</option>
-                            <c:forEach var="var" begin="150" end="690" step="30">
+                            <c:forEach var="var" begin="1500" end="6900" step="300">
                                 <option value="${var}">${var}cm</option>
                             </c:forEach>
                         </select>
@@ -57,10 +56,10 @@
 
                 <div class="col">
                     <div class="form-group">
-                        <label class="form-check-label" for="shed_width">Length:</label>
+                        <label class="form-check-label" for="shed_width">Width:</label>
                         <select class="form-control" name="shed_width" id="shed_width">
                             <option value="0">No Shed</option>
-                            <c:forEach var="var" begin="210" end="720" step="30">
+                            <c:forEach var="var" begin="2100" end="7200" step="300">
                                 <option value="${var}">${var}cm</option>
                             </c:forEach>
                         </select>

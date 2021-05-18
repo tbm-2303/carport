@@ -24,34 +24,37 @@
                     <th scope="col">Length</th>
                     <th scope="col">ShedLength</th>
                     <th scope="col">ShedWidth</th>
-                    <th scope="col">Price</th>
                     <th scope="col">Contact Info</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Price</th>
 
 
                     <th></th>
                 </tr>
                 </thead>
-                <c:forEach var="var" items="${applicationScope.requestList}" varStatus="status">
+                <c:forEach var="var" items="${sessionScope.requestList22}" varStatus="status">
                     <tr>
                         <td>${var.user.email}</td>
-                        <td>${var.width}</td>
-                        <td>${var.length}</td>
-                        <td>${var.shed_length}</td>
-                        <td>${var.shed_width}</td>
+                        <td>${var.carport.width}</td>
+                        <td>${var.carport.length}</td>
+                        <td>${var.carport.shed_length}</td>
+                        <td>${var.carport.shed_width}</td>
+                        <td>${var.user.number}</td>
+                        <td>${var.status}</td>
                         <td>
                             <label for="price"></label><input type="number" class="" id="price" name="price" min="0" step="1"
-                                                              value="${var.profit}">
+                                                              value="${var.carport.price}">
                         </td>
-                        <td>${var.user.number}, ${var.user.contactPing}</td>
+
 
                         <td>
                             <button type="submit" class=" btn btn-danger" name="remove"
-                                    value="${status.index}">Remove
+                                    value="${var.request_id}">Remove
                             </button>
                         </td>
                         <td>
                             <button type="submit" class=" btn btn-danger" name="confirm"
-                                    value="${status.index}">confirm
+                                    value="${var.request_id}">confirm
                             </button>
                         </td>
 

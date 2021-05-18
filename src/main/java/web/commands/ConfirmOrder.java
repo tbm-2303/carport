@@ -19,7 +19,7 @@ public class ConfirmOrder extends CommandProtectedPage {
     public ConfirmOrder(String pageToShow, String role) {
         super(pageToShow, role);
     }
-
+/*
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
@@ -49,9 +49,11 @@ public class ConfirmOrder extends CommandProtectedPage {
                 requesty.getPrice(), (((requesty.getPrice()) * requesty.getPrice()) - requesty.getPrice()), requesty.getUser().getId(), "info", "requested");
 
         orderFacade.createOrder(order);
-        carportFacade.createCarport(carport);
+        carportFacade.createCarportCustom(carport);
 
         String pageToShow2 = "orderconfirmation";
         return pageToShow2;
     }
+
+ */
 }

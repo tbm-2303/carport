@@ -15,8 +15,26 @@ public class User {
     private String password;
     private String role;
     private boolean contactPing = false; // sæt til true hvis kunden ønsker en konsultation.
-    private List<Requesty> offerList;
+    private List<Request> offerList;
     private String number;
+    private String adress;
+    private String name;
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getNumber() {
         return number;
@@ -58,7 +76,7 @@ public class User {
         this.id = id;
     }
 
-    public void addOfferToList(Requesty offer) {
+    public void addOfferToList(Request offer) {
         offerList.add(offer);
     }
 
@@ -66,7 +84,7 @@ public class User {
         return contactPing;
     }
 
-    public List<Requesty> getOfferList() {
+    public List<Request> getOfferList() {
         return offerList;
     }
 
@@ -74,7 +92,7 @@ public class User {
         this.contactPing = contactPing;
     }
 
-    public void setOfferList(List<Requesty> offerList) {
+    public void setOfferList(List<Request> offerList) {
         this.offerList = offerList;
     }
 }

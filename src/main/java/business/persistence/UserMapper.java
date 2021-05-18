@@ -75,5 +75,47 @@ public class UserMapper
             throw new UserException("Connection to database could not be established");
         }
     }
+    public User getUser(int user_id) throws UserException
+    {
+        try (Connection connection = database.connect())
+        {
+            String sql = "SELECT * FROM user WHERE user_id = ?";
 
+            try (PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS))
+            {
+                ps.setInt(1, user_id);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next())
+                {
+
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String adress = rs.getString("adress");
+                    String telephone = rs.getString("telephone");
+                    String role = rs.getString("role");
+                    String password = rs.getString("password");
+                    ResultSet ids = ps.getGeneratedKeys();
+                    ids.next();
+                    int id = ids.getInt(1);
+                    User user = new User(email, password, role);
+                    user.setNumber(telephone);
+                    user.setName(name);
+                    user.setAdress(adress);
+                    user.setId(id);
+                    return user;
+                } else
+                {
+                    throw new UserException("Could not validate user");
+                }
+            }
+            catch (SQLException ex)
+            {
+                throw new UserException(ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new UserException("Connection to database could not be established");
+        }
+    }
 }

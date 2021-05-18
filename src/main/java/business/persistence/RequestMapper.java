@@ -1,55 +1,67 @@
 package business.persistence;
 
-import business.entities.Carport;
-import business.entities.Requesty;
+import business.entities.Request_obj;
+import business.entities.Request;
 import business.exceptions.UserException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestMapper
-{
+public class RequestMapper {
     private Database database;
 
-    public RequestMapper(Database database)
-    {
+    public RequestMapper(Database database) {
         this.database = database;
     }
 
 
-    public int createRequest(Requesty requesty) {
-        int request_id = 0;
-        return  request_id;
-    }
+    public List<Request> getAllRequest(String status) throws UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM request WHERE status_info = ?";
 
-    public List<Requesty> getAllRequest() throws UserException {
-            try (Connection connection = database.connect()) {
-                String sql = "SELECT * FROM request";
-
-                try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                    ResultSet rs = ps.executeQuery();
-                    List<Requesty> carportList = new ArrayList<>();
-                    while (rs.next()) {
-                        String info = rs.getString("info");
-                        double price = rs.getDouble("price");
-                        double profit = rs.getDouble("profit");
-                        int length = rs.getInt("length");
-                        int height = rs.getInt("height");
-                        int shed_height = rs.getInt("shed_height");
-                        int shed_length = rs.getInt("shed_length");
-                        ResultSet ids = ps.getGeneratedKeys();
-                        ids.next();
-                        int id = ids.getInt(1);
-                        //Carport carport = new Carport(price, length, height, shed_length, shed_height, "flat", info);
-                        //carport.setId(id);
-                       // carportList.add(carport);
-                    }
-                    return carportList;
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, status);
+                ResultSet rs = ps.executeQuery();
+                List<Request> requestList = new ArrayList<>();
+                while (rs.next()) {
+                    int carport_id = rs.getInt("carport_id");
+                    int user_id = rs.getInt("user_id");
+                    String status_info = rs.getString("status_info");
+                    ResultSet ids = ps.getGeneratedKeys();
+                    ids.next();
+                    int id = ids.getInt(1);
+                    Request requesty = new Request(carport_id, user_id, status_info);
+                    requesty.setRequest_id(id);
+                    requestList.add(requesty);
                 }
-            } catch (SQLException ex) {
-                throw new UserException("Connection to database could not be established");
+                return requestList;
             }
+        } catch (SQLException ex) {
+            throw new UserException("Connection to database could not be established");
         }
     }
+
+    public Request_obj CreateRequest(Request_obj request) throws UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "INSERT INTO request (carport_id, user_id, status_info) VALUES (?,?,?)";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setDouble(1, request.getCarport().getId());
+                ps.setDouble(2, request.getUser().getId());
+                ps.setString(3, "requested");
+                ps.executeUpdate();
+                ResultSet ids = ps.getGeneratedKeys();
+                ids.next();
+                int id = ids.getInt(1);
+                request.setRequest_id(id);
+                return request;
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+        } catch (SQLException | UserException ex) {
+            throw new UserException(ex.getMessage());
+        }
+    }
+}
 

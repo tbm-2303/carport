@@ -4,7 +4,6 @@ import business.entities.*;
 import business.exceptions.UserException;
 import business.services.CarportFacade;
 import business.services.ItemFacade;
-import business.services.OrderFacade;
 import business.services.RequestFacade;
 
 import javax.servlet.ServletContext;
@@ -28,8 +27,6 @@ public class SendRequest extends CommandUnprotectedPage {
         itemFacade = new ItemFacade(database);
         carportFacade = new CarportFacade(database);
         requestFacade = new RequestFacade(database);
-
-
     }
 
     private List<Item> CustomCarportRecipe(int length, int width, int shed_width, int shed_length) throws SQLException, UserException {
@@ -81,12 +78,14 @@ public class SendRequest extends CommandUnprotectedPage {
             int shed_length = Integer.parseInt(request.getParameter("shed_length"));
             int shed_width = Integer.parseInt(request.getParameter("shed_width"));
 
-            HttpSession session = request.getSession();
-            ServletContext servletContext = request.getServletContext();
 
             if (length < 240 || width < 240 || length > 780 || width > 750) {
                 request.getSession().setAttribute("error", "somehow you messed up the input on the form");
             }
+            HttpSession session = request.getSession();
+            ServletContext servletContext = request.getServletContext();
+
+
             List<Item> listy2 = CustomCarportRecipe(length, width, shed_width, shed_length);// generates itemlist
             User user = (User) session.getAttribute("user");
             double price = 0;
@@ -94,25 +93,26 @@ public class SendRequest extends CommandUnprotectedPage {
                 double itemprice = item.getPrice();
                 price += itemprice;
             }
-            double profit = (double) (price * 1.38);
-
             Carport carport = new Carport(price, length, width, shed_length, shed_width, "flat", "info");
-            int carport_id = carportFacade.createCarport(carport);// skal returnere int carport_id
+            int carport_id = carportFacade.createCarportCustom(carport);
             carport.setId(carport_id);
 
-            Requesty request1 = new Requesty(width, length, shed_length, shed_width, user, listy2);
-            int request_id = requestFacade.createRequest(request1);// skal returnere int request_id
-            request1.setId(request_id);
+            Request_obj request_temp = new Request_obj(user, carport, "requested");
+            requestFacade.createRequest(request_temp);
+
+            //Requesty request1 = new Requesty(width, length, shed_length, shed_width, user, listy2);
+            //request1.setCarport_id(carport_id);
+            // int request_id = requestFacade.createRequest(request1);
+            //request1.setId(request_id);
 
 
-            List<Requesty> requestyList;
-            requestyList = (List<Requesty>) request.getSession().getAttribute("requestList");
-            if (requestyList == null) {
-                requestyList = new ArrayList<>();
-            }
-            requestyList.add(request1);
-            servletContext.setAttribute("requestList", requestyList);
-
+            //  List<Requesty> requestyList;
+            //  requestyList = (List<Requesty>) request.getSession().getAttribute("requestList");
+            //  if (requestyList == null) {
+            //  requestyList = new ArrayList<>();
+            //  }
+            //  requestyList.add(request1);
+            //  servletContext.setAttribute("requestList", requestyList);
 
 
         } catch (InputMismatchException | SQLException e) {

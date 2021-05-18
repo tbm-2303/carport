@@ -15,13 +15,6 @@
     <jsp:body>
 
         <div>
-            <h2>Our Cool Site</h2>
-
-            <div style="margin-top: 3em;margin-bottom: 3em;">
-                index
-            </div>
-
-
             <c:if test="${sessionScope.role == 'customer' }">
             <p><a href="${pageContext.request.contextPath}/fc/custcarportCommand">order a custom carport</a>
                 </c:if>

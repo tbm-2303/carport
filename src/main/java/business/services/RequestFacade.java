@@ -1,6 +1,7 @@
 package business.services;
 
-import business.entities.Requesty;
+import business.entities.Request_obj;
+import business.entities.Request;
 import business.exceptions.UserException;
 import business.persistence.Database;
 import business.persistence.RequestMapper;
@@ -15,11 +16,11 @@ public class RequestFacade {
 
     }
 
-    public int createRequest(Requesty request1) {
-        return requestMapper.createRequest(request1);
+    public Request_obj createRequest(Request_obj request1) throws UserException {
+        return requestMapper.CreateRequest(request1);
     }
 
-    public List<Requesty> getAllRequest() throws UserException {
-       return requestMapper.getAllRequest();
+    public List<Request> getAllRequest(String status) throws UserException {
+       return requestMapper.getAllRequest(status);
     }
 }

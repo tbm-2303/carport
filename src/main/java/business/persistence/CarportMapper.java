@@ -46,9 +46,9 @@ public class CarportMapper {
         }
     }
 
-    public int CreateCarport(Carport carport) throws UserException {
+    public int CreateCarportCustom(Carport carport) throws UserException {
         try (Connection connection = database.connect()) {
-            String sql = "INSERT INTO carport (price, profit, info, length, width, shed_length, shed_width, custom) VALUES (?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO carport (price, selling_price, info, length, width, shed_length, shed_width, custom) VALUES (?,?,?,?,?,?,?,?)";
 
             try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setDouble(1, carport.getPrice());

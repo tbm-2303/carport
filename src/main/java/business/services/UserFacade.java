@@ -26,4 +26,9 @@ public class UserFacade
         return user;
     }
 
+    public User getUser(int user_id) throws UserException {
+       return userMapper.getUser(user_id);
+
+    }
+
 }

@@ -31,7 +31,7 @@ public abstract class Command
 
         commands.put("custcarportCommand", new CommandUnprotectedPage("sendrequest"));
         commands.put("sendRequest", new SendRequest("index"));
-        commands.put("updateCommand", new UpdateCommand("viewrequests", "employee"));
+        //commands.put("updateCommand", new UpdateCommand("viewrequests", "employee"));
         commands.put("viewmyofferpage", new CommandProtectedPage("viewmyoffer", "customer"));
 
 

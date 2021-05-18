@@ -20,8 +20,8 @@ public class CarportFacade {
         return carportMapper.getAllCarports();
     }
 
-    public int createCarport(Carport carport) throws UserException {
-       return carportMapper.CreateCarport(carport);
+    public int createCarportCustom(Carport carport) throws UserException {
+       return carportMapper.CreateCarportCustom(carport);
     }
 
     public Carport getCarport(int carport_id) throws UserException {
