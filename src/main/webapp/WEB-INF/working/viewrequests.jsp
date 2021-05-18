@@ -25,7 +25,6 @@
                     <th scope="col">ShedLength</th>
                     <th scope="col">ShedWidth</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Profit</th>
                     <th scope="col">Contact Info</th>
 
 
@@ -39,7 +38,6 @@
                         <td>${var.length}</td>
                         <td>${var.shed_length}</td>
                         <td>${var.shed_width}</td>
-                        <td>${var.price}</td>
                         <td>
                             <label for="price"></label><input type="number" class="" id="price" name="price" min="0" step="1"
                                                               value="${var.profit}">

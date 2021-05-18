@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Requesty {
 
-    private int id;
+    private int User_id;
     private int width;
     private int length;
     private int shed_length;
@@ -13,6 +13,7 @@ public class Requesty {
     private double profit;
     private User user;
     private List<Item> itemList;
+    private int id;
 
 
     public Requesty(int width, int length, int shed_length, int shed_width, User user, List<Item> itemList) {
@@ -20,13 +21,27 @@ public class Requesty {
         this.length = length;
         this.shed_length = shed_length;
         this.shed_width = shed_width;
-        this.price = price;
-        this.profit = profit;
         this.user = user;
-        id = user.getId();
+        User_id = user.getId();
         this.itemList = itemList;
     }
 
+
+    public int getUser_id() {
+        return User_id;
+    }
+
+    public void setUser_id(int user_id) {
+        User_id = user_id;
+    }
+
+    public List<Item> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<Item> itemList) {
+        this.itemList = itemList;
+    }
 
     public int getId() {
         return id;

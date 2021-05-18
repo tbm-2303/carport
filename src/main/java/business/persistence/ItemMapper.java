@@ -20,7 +20,7 @@ public class ItemMapper {
 
     public Item SelectItemFromDB(String name, int length) throws SQLException, UserException {
         try (Connection connection = database.connect()) {
-            String sql = "SELECT * FROM item WHERE ´name´ and length = (?,?)";
+            String sql = "SELECT * FROM item WHERE `name` = ? and length = ?";
 
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, name);

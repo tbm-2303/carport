@@ -12,27 +12,35 @@ import java.util.List;
 public class CarportFacade {
     CarportMapper carportMapper;
 
-    public CarportFacade(Database database)
-    {
+    public CarportFacade(Database database) {
         carportMapper = new CarportMapper(database);
     }
 
     public List<Carport> getAllCarports() throws UserException {
         return carportMapper.getAllCarports();
     }
-    public void createCarport(Carport carport) throws UserException {
-        carportMapper.CreateCarport(carport);
+
+    public int createCarport(Carport carport) throws UserException {
+       return carportMapper.CreateCarport(carport);
     }
-    public void updateCarportInfo(String info){
+
+    public Carport getCarport(int carport_id) throws UserException {
+        return carportMapper.getCarport(carport_id);
+    }
+
+    public void updateCarportInfo(String info) {
 
     }
-    public void updateCarportDimensions(int width, int length, int shed_length, int shed_width){
+
+    public void updateCarportDimensions(int width, int length, int shed_length, int shed_width) {
 
     }
+
     public void updateCarportPrice(double price) {
 
     }
-    public void deleteCarport(int carport_id){
+
+    public void deleteCarport(int carport_id) {
 
     }
 }

@@ -2,8 +2,10 @@ package web.commands;
 
 import business.entities.*;
 import business.exceptions.UserException;
+import business.services.CarportFacade;
 import business.services.ItemFacade;
 import business.services.OrderFacade;
+import business.services.RequestFacade;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -16,100 +18,58 @@ import java.util.List;
 
 public class SendRequest extends CommandUnprotectedPage {
     private ItemFacade itemFacade;
-    private OrderFacade orderFacade;
+    private RequestFacade requestFacade;
+    private CarportFacade carportFacade;
     private int start = 240;
 
 
     public SendRequest(String pageToShow) {
         super(pageToShow);
         itemFacade = new ItemFacade(database);
-        orderFacade = new OrderFacade(database);
+        carportFacade = new CarportFacade(database);
+        requestFacade = new RequestFacade(database);
+
+
     }
 
     private List<Item> CustomCarportRecipe(int length, int width, int shed_width, int shed_length) throws SQLException, UserException {
         List<Item> listy = new ArrayList<>();
-        listy.add(itemFacade.SelectItemFromDB("Spærtræ", 480));// always there
-        listy.add(itemFacade.SelectItemFromDB("Spærtræ", length));// always there1
-        listy.add(itemFacade.SelectItemFromDB("Spærtræ", length));// always there2
+        listy.add(itemFacade.SelectItemFromDB("Spær", 4800));// always there
+        listy.add(itemFacade.SelectItemFromDB("Spær", length));// always there1
+        listy.add(itemFacade.SelectItemFromDB("Spær", length));// always there2
         for (int i = 0; i < 6; i++) {
-            listy.add(itemFacade.SelectItemFromDB("Spærtræ", length));//always there6
+            listy.add(itemFacade.SelectItemFromDB("Spær", length));//always there6
         }
         for (int i = 0; i < 4; i++) {
-            listy.add(itemFacade.SelectItemFromDB("Stolpe", 300));//always there4
+            listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));//always there4
         }
 
-        for (int i = 240; i < 751; i += 250) {
+        for (int i = 2400; i < 7510; i += 2500) {
             if (width > i + 250) {
                 for (int j = 0; j < 4; j++) {
-                    listy.add(itemFacade.SelectItemFromDB("Stolpe", 300));// 3 for each 250cm width added
+                    listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 3 for each 250cm width added
                 }
             }
         }
 
-        for (int i = 240; i < 751; i += 55) {
+        for (int i = 2400; i < 7510; i += 550) {
             if (width > (start + i)) {
                 start = start + i;
-                listy.add(itemFacade.SelectItemFromDB("Spærtræ", length));// 1 for each 55cm length added
+                listy.add(itemFacade.SelectItemFromDB("Spær", length));// 1 for each 55cm length added
             }
         }
         if (shed_length > 0 || shed_width > 0) {
             for (int i = 0; i < 4; i++) {
-                listy.add(itemFacade.SelectItemFromDB("Stolpe", 300));//3 if shed is added
+                listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));//3 if shed is added
             }
             if (shed_length > (length * 0.75)) {
-                listy.add(itemFacade.SelectItemFromDB("Stolpe", 300));// 1 additional if shed length is over threshold
+                listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 1 additional if shed length is over threshold
             }
             if (shed_width > (width * 0.75)) {
-                listy.add(itemFacade.SelectItemFromDB("Stolpe", 300));// 1 additional if shed width is over threshold
+                listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 1 additional if shed width is over threshold
             }
         }
         return listy;
-    }
-
-    private void CarportCategory(int width, int length, int shed_length, int shed_width) throws SQLException, UserException {
-        if (shed_width == 0 || shed_length == 0) {
-
-            if (length >= 240 && length <= 340) {
-                if (width >= 240 && width <= 340) {//small (1)
-                    CustomCarportRecipe(length, width, shed_width, shed_length);
-                } else if (width >= 341 && width <= 440) {//medium (2)
-                    CustomCarportRecipe(length, width, shed_width, shed_length);
-                } else if (width >= 441 && width <= 540) {//large (3)
-                    CustomCarportRecipe(length, width, shed_width, shed_length);
-
-                } else if (width >= 541 && width <= 640) {//big (4)
-                } else if (width >= 641 && width <= 750) {//huge (5)
-                }
-            } else if (length >= 341 && length <= 440) {
-                if (width >= 240 && width <= 340) {// (6)
-                } else if (width >= 341 && width <= 440) {// (7)
-                } else if (width >= 441 && width <= 540) {// (8)
-                } else if (width >= 541 && width <= 640) {// (9)
-                } else if (width >= 641 && width <= 750) {// (10)
-                }
-            } else if (length >= 441 && length <= 540) {
-                if (width >= 240 && width <= 340) {
-                } else if (width >= 341 && width <= 440) { //(11)
-                } else if (width >= 441 && width <= 540) {//(12)
-                } else if (width >= 541 && width <= 640) {//(13)
-                } else if (width >= 641 && width <= 750) {//(14)
-                }
-            } else if (length >= 541 && length <= 640) {
-                if (width >= 240 && width <= 340) {//(15)
-                } else if (width >= 341 && width <= 440) {//(16)
-                } else if (width >= 441 && width <= 540) {//(17)
-                } else if (width >= 541 && width <= 640) {//(18)
-                } else if (width >= 641 && width <= 750) {//(19)
-                }
-            } else if (length >= 641 && length <= 780) {
-                if (width >= 240 && width <= 340) {//(20)
-                } else if (width >= 341 && width <= 440) {//(21)
-                } else if (width >= 441 && width <= 540) {//(22)
-                } else if (width >= 541 && width <= 640) {//(23)
-                } else if (width >= 641 && width <= 750) {//(24)
-                }
-            }
-        }
     }
 
     @Override
@@ -120,6 +80,7 @@ public class SendRequest extends CommandUnprotectedPage {
             int width = Integer.parseInt(request.getParameter("width"));
             int shed_length = Integer.parseInt(request.getParameter("shed_length"));
             int shed_width = Integer.parseInt(request.getParameter("shed_width"));
+
             HttpSession session = request.getSession();
             ServletContext servletContext = request.getServletContext();
 
@@ -128,7 +89,21 @@ public class SendRequest extends CommandUnprotectedPage {
             }
             List<Item> listy2 = CustomCarportRecipe(length, width, shed_width, shed_length);// generates itemlist
             User user = (User) session.getAttribute("user");
+            double price = 0;
+            for (Item item : listy2) {
+                double itemprice = item.getPrice();
+                price += itemprice;
+            }
+            double profit = (double) (price * 1.38);
+
+            Carport carport = new Carport(price, length, width, shed_length, shed_width, "flat", "info");
+            int carport_id = carportFacade.createCarport(carport);// skal returnere int carport_id
+            carport.setId(carport_id);
+
             Requesty request1 = new Requesty(width, length, shed_length, shed_width, user, listy2);
+            int request_id = requestFacade.createRequest(request1);// skal returnere int request_id
+            request1.setId(request_id);
+
 
             List<Requesty> requestyList;
             requestyList = (List<Requesty>) request.getSession().getAttribute("requestList");
@@ -137,6 +112,8 @@ public class SendRequest extends CommandUnprotectedPage {
             }
             requestyList.add(request1);
             servletContext.setAttribute("requestList", requestyList);
+
+
 
         } catch (InputMismatchException | SQLException e) {
             request.getSession().setAttribute("error", "somehow you messed up the input on the form");
