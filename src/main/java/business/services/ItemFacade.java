@@ -9,6 +9,7 @@ import business.persistence.ItemMapper;
 import business.persistence.UserMapper;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ItemFacade {
     ItemMapper itemMapper;
@@ -36,4 +37,7 @@ public class ItemFacade {
         itemMapper.linktable(carport_id,item_id);
     }
 
+    public List<Item> getItemList(int carport_id) throws UserException {
+        return itemMapper.getItemList(carport_id);
+    }
 }

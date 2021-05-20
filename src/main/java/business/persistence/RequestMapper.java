@@ -1,11 +1,9 @@
 package business.persistence;
 
-import business.entities.Carport;
-import business.entities.Request_obj;
-import business.entities.Request;
-import business.entities.User;
+import business.entities.*;
 import business.exceptions.UserException;
 import business.services.CarportFacade;
+import business.services.ItemFacade;
 import business.services.UserFacade;
 
 import java.sql.*;
@@ -16,11 +14,14 @@ public class RequestMapper {
     private Database database;
     private CarportFacade carportFacade;
     private UserFacade userFacade;
+    private ItemFacade itemFacade;
 
     public RequestMapper(Database database) {
         this.database = database;
         carportFacade = new CarportFacade(database);
         userFacade = new UserFacade(database);
+        itemFacade = new ItemFacade(database);
+
     }
 
 
@@ -67,6 +68,8 @@ public class RequestMapper {
                     Carport carport = carportFacade.getCarport(carport_id);
                     Request_obj request_obj = new Request_obj(user,carport,status_info);
                     request_obj.setRequest_id(request_id);
+                    List<Item> itemlist = itemFacade.getItemList(carport_id);
+                    request_obj.getCarport().setItemList(itemlist);
                     requestList.add(request_obj);
                 }
                 return requestList;

@@ -3,6 +3,7 @@ package business.persistence;
 import business.entities.Carport;
 import business.entities.Item;
 import business.entities.Request_obj;
+import business.entities.User;
 import business.exceptions.UserException;
 
 import java.sql.*;
@@ -18,7 +19,6 @@ public class ItemMapper {
     }
 
 
-
     public Item SelectItemFromDB(String name, int length) throws SQLException, UserException {
         try (Connection connection = database.connect()) {
             String sql = "SELECT * FROM item WHERE `name` = ? and length = ?";
@@ -32,7 +32,34 @@ public class ItemMapper {
                     int item_id = rs.getInt("item_id");
                     double price = rs.getDouble("price");
                     int width = rs.getInt("width");
-                    Item item = new Item(item_id,name,price,length,width);
+                    String info = rs.getString("info");
+                    Item item = new Item(item_id, info, name, price, length, width);
+                    return item;
+                }
+            }
+        } catch (SQLException ex) {
+            throw new UserException(ex.getMessage());
+        }
+        return null;
+    }
+
+
+    public Item ItemSelector(int item_id) throws SQLException, UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM item WHERE item_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, item_id);
+                ResultSet rs = ps.executeQuery();
+                List<Item> itemList2 = new ArrayList<>();
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String info = rs.getString("info");
+                    double price = rs.getDouble("price");
+                    int width = rs.getInt("width");
+                    int length = rs.getInt("length");
+                    int height = rs.getInt("height");
+                    Item item = new Item(item_id, info, name, price, length, width);
                     return item;
                 }
             }
@@ -56,6 +83,32 @@ public class ItemMapper {
         } catch (SQLException | UserException ex) {
             throw new UserException(ex.getMessage());
         }
+    }
+
+
+    public List<Item> getItemList(int carport_id) throws UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM carport_link WHERE carport_id = ?";
+
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, carport_id);
+                ResultSet rs = ps.executeQuery();
+                List<Item> itemList = new ArrayList<>();
+                while (rs.next()) {
+                    int item_id = rs.getInt("item_id");
+                    Item item = ItemSelector(item_id);
+                    itemList.add(item);
+                }
+                return itemList;
+
+            } catch (SQLException ex) {
+                throw new UserException("Connection to database could not be established");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

@@ -1,11 +1,14 @@
 package business.entities;
 
+import java.util.List;
+
 public class Request_obj {
     private User user;
     private Carport carport;
     private String status;
 
     private int request_id;
+    private List<Item> itemList;
 
     public Request_obj(User user, Carport carport, String status) {
         this.user = user;
@@ -13,6 +16,13 @@ public class Request_obj {
         this.status = status;
     }
 
+    public List<Item> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<Item> itemList) {
+        this.itemList = itemList;
+    }
 
     public User getUser() {
         return user;

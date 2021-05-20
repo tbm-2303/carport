@@ -9,12 +9,16 @@ public class Item {
     private int quantity=1;
     private int lenght;
     private int width;
-    public Item(int id, String name, double price, int lenght, int width) {
+
+
+    public Item(int id, String info, String name, double price, int lenght, int width) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.width = width;
         this.lenght = lenght;
+        this.info = info;
+
     }
 
     public String getInfo() {

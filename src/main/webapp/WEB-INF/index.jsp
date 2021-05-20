@@ -14,6 +14,12 @@
 
     <jsp:body>
 
+        <c:if test="${sessionScope.role == 'employee' }">
+        <h1>Admin email: ${sessionScope.email} </h1>
+            <p><a href="${pageContext.request.contextPath}/fc/viewrequestspage">process request</a>
+
+        </c:if>
+
         <c:if test="${sessionScope.role == 'customer' }">
             <p><a href="${pageContext.request.contextPath}/fc/sendrequestpage">order a custom carport</a>
         </c:if>
@@ -26,6 +32,8 @@
                 <thead>
                 <tr>
                     <th scope="col">Request ID</th>
+                    <th scope="col">item1</th>
+                    <th scope="col">item2</th>
                     <th scope="col">User email</th>
                     <th scope="col">Width</th>
                     <th scope="col">Length</th>
@@ -39,6 +47,8 @@
                     <c:if test="${sessionScope.requestList.get(status.index).user.id == sessionScope.user.id}">
                         <tr>
                             <td>${var.request_id}</td>
+                            <td>${var.itemList.get(0).name}</td>
+                            <td>${var.itemList.get(1).name}</td>
                             <td>${var.user.email}</td>
                             <td>${var.carport.width}</td>
                             <td>${var.carport.length}</td>
