@@ -14,6 +14,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class Requestpage extends CommandProtectedPage {
             HttpSession session = request.getSession();
             List<Request_obj> requestList = requestFacade.getAllRequest2("requested");
             session.setAttribute("requestList22", requestList);
+
+
             return pageToShow;
 
         } catch (UserException exception) {

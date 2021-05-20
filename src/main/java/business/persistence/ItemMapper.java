@@ -2,6 +2,7 @@ package business.persistence;
 
 import business.entities.Carport;
 import business.entities.Item;
+import business.entities.Request_obj;
 import business.exceptions.UserException;
 
 import java.sql.*;
@@ -39,6 +40,22 @@ public class ItemMapper {
             throw new UserException(ex.getMessage());
         }
         return null;
+    }
+
+    public void linktable(int carport_id, int item_id) throws UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "INSERT INTO carport_link (carport_id, item_id) VALUES (?,?)";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, carport_id);
+                ps.setInt(2, item_id);
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+        } catch (SQLException | UserException ex) {
+            throw new UserException(ex.getMessage());
+        }
     }
 
 

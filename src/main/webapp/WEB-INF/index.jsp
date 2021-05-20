@@ -5,9 +5,7 @@
 <t:genericpage>
 
     <jsp:attribute name="header">
-        -liste med alle mine request.
-        -listen skal indeholde: status, tegning, pris
-        -
+
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -16,18 +14,61 @@
 
     <jsp:body>
 
-        <div>
-            <c:if test="${sessionScope.role == 'customer' }">
+        <c:if test="${sessionScope.role == 'customer' }">
             <p><a href="${pageContext.request.contextPath}/fc/sendrequestpage">order a custom carport</a>
-                </c:if>
+        </c:if>
 
-                <c:if test="${sessionScope.role == 'employee' }">
-            <p style="font-size: larger">This is what you can do,
-                since your are logged in as an employee</p>
-            <p><a href="fc/employeepage">Employee Page</a>
-                </c:if>
 
-        </div>
+        <c:if test="${sessionScope.user.role == 'customer'}">
+            <form action="${pageContext.request.contextPath}/fc/updateCommand" method="post">
+            <table class="table table-success table-striped">
 
+                <thead>
+                <tr>
+                    <th scope="col">Request ID</th>
+                    <th scope="col">User email</th>
+                    <th scope="col">Width</th>
+                    <th scope="col">Length</th>
+                    <th scope="col">ShedLength</th>
+                    <th scope="col">ShedWidth</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Price</th>
+                </tr>
+                </thead>
+                <c:forEach var="var" items="${sessionScope.requestList}" varStatus="status">
+                    <c:if test="${sessionScope.requestList.get(status.index).user.id == sessionScope.user.id}">
+                        <tr>
+                            <td>${var.request_id}</td>
+                            <td>${var.user.email}</td>
+                            <td>${var.carport.width}</td>
+                            <td>${var.carport.length}</td>
+                            <td>${var.carport.shed_length}</td>
+                            <td>${var.carport.shed_width}</td>
+                            <td>${var.status}</td>
+                            <td>${var.carport.price}</td>
+                            <c:if test="${var.status == 'processed'}">
+                                <td>
+                                    <button type="submit" class=" btn btn-danger" name="remove"
+                                            value="${var.request_id}">Remove
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="submit" class=" btn btn-danger" name="confirm"
+                                            value="${var.request_id}">confirm
+                                    </button>
+                                </td>
+                            </c:if>
+
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </table>
+
+        </c:if>
+
+        <c:if test="${requestScope.error != null}">
+            <p style="color: red">${requestScope.error}</p>
+        </c:if>
+        </form>
     </jsp:body>
 </t:genericpage>

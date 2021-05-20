@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +31,19 @@ public class LoginCommand extends CommandUnprotectedPage {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+
+
         try {
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
             HttpSession session = request.getSession();
             ServletContext servletContext = request.getServletContext();
             User user = userFacade.login(email, password);
 
             if (user.getRole().equals("customer")) {
                 pageToShow = "index";
+                List<Request_obj> requestList = requestFacade.getAllRequest3(user.getId());
+                session.setAttribute("requestList", requestList);
             }
             if (user.getRole().equals("employee")) {
                 pageToShow = "employeepage";
@@ -46,12 +51,11 @@ public class LoginCommand extends CommandUnprotectedPage {
             }
 
             session.setAttribute("user", user);
-            session.setAttribute("email", email);
             session.setAttribute("role", user.getRole());
-
+            session.setAttribute("email", email);
 
             return REDIRECT_INDICATOR + pageToShow;
-        } catch (UserException ex) {
+        } catch (UserException | SQLException ex) {
             request.setAttribute("error", "Wrong username or password!");
             return "loginpage";
         }

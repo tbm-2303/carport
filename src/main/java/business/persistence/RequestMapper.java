@@ -50,11 +50,37 @@ public class RequestMapper {
         }
     }
 
+    public List<Request_obj> getAllRequest3(int user_id) throws UserException, SQLException {
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM request WHERE user_id= ?;";
 
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, user_id);
+                ResultSet rs = ps.executeQuery();
+                List<Request_obj> requestList = new ArrayList<>();
+                while (rs.next()) {
+                    int request_id = rs.getInt("request_id");
+                    int carport_id = rs.getInt("carport_id");
+                    String status_info = rs.getString("status_info");
+                    User user = userFacade.getUser(user_id);
+                    Carport carport = carportFacade.getCarport(carport_id);
+                    Request_obj request_obj = new Request_obj(user,carport,status_info);
+                    request_obj.setRequest_id(request_id);
+                    requestList.add(request_obj);
+                }
+                return requestList;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
     public List<Request_obj> getAllRequest2(String status) throws UserException {
         try (Connection connection = database.connect()) {
-            String sql = "SELECT * FROM request WHERE status_info = ?;";
+            String sql = "SELECT * FROM request WHERE status_info = ?";
+
 
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, status);
@@ -64,19 +90,23 @@ public class RequestMapper {
                     int request_id = rs.getInt("request_id");
                     int carport_id = rs.getInt("carport_id");
                     int user_id = rs.getInt("user_id");
-                    String status_info = rs.getString("status_info");
                     User user = userFacade.getUser(user_id);
                     Carport carport = carportFacade.getCarport(carport_id);
-                    Request_obj request = new Request_obj(user,carport,status_info);
+
+                    Request_obj request;
+                    request = new Request_obj(user, carport, status);
                     request.setRequest_id(request_id);
                     requestList.add(request);
                 }
                 return requestList;
+
+            } catch (SQLException ex) {
+                throw new UserException("Connection to database could not be established");
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        catch (SQLException ex) {
-            throw new UserException("Connection to database could not be established");
-        }
+        return null;
     }
 
 

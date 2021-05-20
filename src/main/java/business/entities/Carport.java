@@ -14,13 +14,12 @@ public class Carport {
         this.shed_width = shed_width;
         this.roof_type = roof_type;
         this.info = info;
+        selling_price = 0;
     }
 
     private int id;
     private double selling_price;
-    private double profit;
     private List<Item> itemList;
-    private String image_text;
 
     private double price;
     private int length;
@@ -49,13 +48,6 @@ public class Carport {
         this.selling_price = selling_price;
     }
 
-    public double getProfit() {
-        return profit;
-    }
-
-    public void setProfit(double profit) {
-        this.profit = profit;
-    }
 
     public double getPrice() {
         return price;
@@ -97,13 +89,6 @@ public class Carport {
         this.itemList = itemList;
     }
 
-    public String getImage_text() {
-        return image_text;
-    }
-
-    public void setImage_text(String image_text) {
-        this.image_text = image_text;
-    }
 
     public int getWidth() {
         return width;

@@ -1,5 +1,6 @@
 package business.services;
 
+import business.entities.Carport;
 import business.entities.Item;
 import business.entities.User;
 import business.exceptions.UserException;
@@ -30,6 +31,9 @@ public class ItemFacade {
     }
     public void insertNewItem(Item item){
 
+    }
+    public void Linktable(int carport_id, int item_id) throws UserException {
+        itemMapper.linktable(carport_id,item_id);
     }
 
 }

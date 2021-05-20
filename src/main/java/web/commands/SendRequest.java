@@ -55,7 +55,7 @@ public class SendRequest extends CommandUnprotectedPage {
                 listy.add(itemFacade.SelectItemFromDB("Spær", length));// 1 for each 55cm length added
             }
         }
-        if (length >= shed_length || width >= shed_width) {
+        if (length >= shed_length && width >= shed_width) {
             if (shed_length > 0 || shed_width > 0) {
                 for (int i = 0; i < 4; i++) {
                     listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));//3 if shed is added
@@ -68,7 +68,6 @@ public class SendRequest extends CommandUnprotectedPage {
                 }
             }
         }
-
         return listy;
     }
 
@@ -81,9 +80,6 @@ public class SendRequest extends CommandUnprotectedPage {
             int shed_length = Integer.parseInt(request.getParameter("shed_length"));
             int shed_width = Integer.parseInt(request.getParameter("shed_width"));
 
-            if (length < 240 || width < 240 || length > 780 || width > 750) {
-                request.getSession().setAttribute("error", "somehow you messed up the input on the form. GJ");
-            }
             HttpSession session = request.getSession();
             ServletContext servletContext = request.getServletContext();
             //itemlist
@@ -98,21 +94,22 @@ public class SendRequest extends CommandUnprotectedPage {
             //carport
             Carport carport = carportFacade.createCarportCustom(new Carport(price, length, width, shed_length, shed_width, "flat", "info"));
             carport.setItemList(listy);
+
             //request
             Request_obj request1 = requestFacade.createRequest(new Request_obj(user, carport, "requested"));
+
             //requestList
-           /* List<Request_obj> requestyList = (List<Request_obj>) servletContext.getAttribute("requestList");
+            List<Request_obj> requestyList = (List<Request_obj>) session.getAttribute("requestList");
 
             if (requestyList == null) {
                 requestyList = new ArrayList<>();
             }
             requestyList.add(request1);
-            servletContext.setAttribute("requestList", requestyList);
+            session.setAttribute("requestList", requestyList);
 
 
-            */
-        } catch (InputMismatchException | SQLException e) {
-            request.getSession().setAttribute("error", "somehow you messed up the input on the form");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return REDIRECT_INDICATOR + pageToShow;
     }

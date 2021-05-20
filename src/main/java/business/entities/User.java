@@ -14,8 +14,6 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private boolean contactPing = false; // sæt til true hvis kunden ønsker en konsultation.
-    private List<Request> offerList;
     private String number;
     private String adress;
     private String name;
@@ -76,25 +74,6 @@ public class User {
         this.id = id;
     }
 
-    public void addOfferToList(Request offer) {
-        offerList.add(offer);
-    }
-
-    public boolean isContactPing() {
-        return contactPing;
-    }
-
-    public List<Request> getOfferList() {
-        return offerList;
-    }
-
-    public void setContactPing(boolean contactPing) {
-        this.contactPing = contactPing;
-    }
-
-    public void setOfferList(List<Request> offerList) {
-        this.offerList = offerList;
-    }
 }
 
 

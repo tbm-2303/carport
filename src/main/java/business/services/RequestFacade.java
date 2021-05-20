@@ -1,11 +1,11 @@
 package business.services;
 
 import business.entities.Request_obj;
-import business.entities.Request;
 import business.exceptions.UserException;
 import business.persistence.Database;
 import business.persistence.RequestMapper;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class RequestFacade {
@@ -20,11 +20,12 @@ public class RequestFacade {
         return requestMapper.CreateRequest(request1);
     }
 
-    public List<Request> getAllRequest(String status) throws UserException {
-       return requestMapper.getAllRequest(status);
-    }
     public List<Request_obj> getAllRequest2(String status) throws UserException {
         return requestMapper.getAllRequest2(status);
     }
+    public List<Request_obj> getAllRequest3(int user_id) throws UserException, SQLException {
+        return requestMapper.getAllRequest3(user_id);
+    }
+
 
 }
