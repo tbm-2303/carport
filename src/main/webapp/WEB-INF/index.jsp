@@ -5,7 +5,9 @@
 <t:genericpage>
 
     <jsp:attribute name="header">
-
+        -liste med alle mine request.
+        -listen skal indeholde: status, tegning, pris
+        -
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -16,19 +18,13 @@
 
         <div>
             <c:if test="${sessionScope.role == 'customer' }">
-            <p><a href="${pageContext.request.contextPath}/fc/custcarportCommand">order a custom carport</a>
+            <p><a href="${pageContext.request.contextPath}/fc/sendrequestpage">order a custom carport</a>
                 </c:if>
 
                 <c:if test="${sessionScope.role == 'employee' }">
             <p style="font-size: larger">This is what you can do,
                 since your are logged in as an employee</p>
             <p><a href="fc/employeepage">Employee Page</a>
-                </c:if>
-
-                <c:if test="${sessionScope.role == 'customer' }">
-            <p style="font-size: larger">This is what you can do, since your
-                are logged in as a customer</p>
-            <p><a href="fc/customerpage">Customer Page</a>
                 </c:if>
 
         </div>

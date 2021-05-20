@@ -1,11 +1,9 @@
 package business.services;
 
 import business.entities.Carport;
-import business.entities.User;
 import business.exceptions.UserException;
 import business.persistence.CarportMapper;
 import business.persistence.Database;
-import business.persistence.UserMapper;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class CarportFacade {
         return carportMapper.getAllCarports();
     }
 
-    public int createCarportCustom(Carport carport) throws UserException {
+    public Carport createCarportCustom(Carport carport) throws UserException {
        return carportMapper.CreateCarportCustom(carport);
     }
 

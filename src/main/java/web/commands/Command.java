@@ -29,10 +29,16 @@ public abstract class Command
         commands.put("customerpage", new CommandProtectedPage("customerpage", "customer"));
         commands.put("employeepage", new CommandProtectedPage("employeepage", "employee"));
 
-        commands.put("custcarportCommand", new CommandUnprotectedPage("sendrequest"));
+        commands.put("sendrequestpage", new CommandProtectedPage("sendrequest","customer"));//shows 'sendrequest' page
+        commands.put("viewrequestspage", new Requestpage("viewrequests", "employee"));//shows 'viewrequests' page
+        commands.put("viewmyofferpage", new CommandProtectedPage("viewmyoffer", "customer"));//shows 'viewmyofffer' page
         commands.put("sendRequest", new SendRequest("index"));
+
+
+
+        //commands.put("showrequstpage", new ShowRequestpage("viewrequests", "employee"));
         //commands.put("updateCommand", new UpdateCommand("viewrequests", "employee"));
-        commands.put("viewmyofferpage", new CommandProtectedPage("viewmyoffer", "customer"));
+
 
 
 

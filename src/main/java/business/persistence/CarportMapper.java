@@ -29,13 +29,13 @@ public class CarportMapper {
                     double price = rs.getDouble("price");
                     double profit = rs.getDouble("profit");
                     int length = rs.getInt("length");
-                    int height = rs.getInt("height");
-                    int shed_height = rs.getInt("shed_height");
+                    int width = rs.getInt("width");
+                    int shed_width = rs.getInt("shed_width");
                     int shed_length = rs.getInt("shed_length");
                     ResultSet ids = ps.getGeneratedKeys();
                     ids.next();
                     int id = ids.getInt(1);
-                    Carport carport = new Carport(price, length, height, shed_length, shed_height, "flat", info);
+                    Carport carport = new Carport(price, length, width, shed_length, shed_width, "flat", info);
                     carport.setId(id);
                     carportList.add(carport);
                 }
@@ -46,7 +46,7 @@ public class CarportMapper {
         }
     }
 
-    public int CreateCarportCustom(Carport carport) throws UserException {
+    public Carport CreateCarportCustom(Carport carport) throws UserException {
         try (Connection connection = database.connect()) {
             String sql = "INSERT INTO carport (price, selling_price, info, length, width, shed_length, shed_width, custom) VALUES (?,?,?,?,?,?,?,?)";
 
@@ -64,7 +64,7 @@ public class CarportMapper {
                 ids.next();
                 int id = ids.getInt(1);
                 carport.setId(id);
-                return id;
+                return carport;
             } catch (SQLException ex) {
                 throw new UserException(ex.getMessage());
             }
@@ -78,31 +78,30 @@ public class CarportMapper {
 
     public Carport getCarport(int carport_id) throws UserException {
         try (Connection connection = database.connect()) {
-            String sql = "SELECT * FROM carport";
+            String sql = "SELECT * FROM carport WHERE carport_id = ?";
 
-            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, carport_id);
                 ResultSet rs = ps.executeQuery();
-                List<Carport> carportList = new ArrayList<>();
-                while (rs.next()) {
+
+                if (rs.next()) {
                     String info = rs.getString("info");
                     double price = rs.getDouble("price");
                     double profit = rs.getDouble("profit");
                     int length = rs.getInt("length");
-                    int height = rs.getInt("height");
-                    int shed_height = rs.getInt("shed_height");
+                    int width = rs.getInt("width");
+                    int shed_width = rs.getInt("shed_width");
                     int shed_length = rs.getInt("shed_length");
-                    ResultSet ids = ps.getGeneratedKeys();
-                    ids.next();
-                    int id = ids.getInt(1);
-                    Carport carport = new Carport(price, length, height, shed_length, shed_height, "flat", info);
-                    carport.setId(id);
-                    carportList.add(carport);
+                    Carport carport = new Carport(price, length, width, shed_length, shed_width, "flat", info);
+                    carport.setId(carport_id);
                     return carport;
                 }
             }
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex) {
             throw new UserException("Connection to database could not be established");
         }
+
         return null;
     }
 }

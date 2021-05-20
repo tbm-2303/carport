@@ -1,7 +1,11 @@
 package web.commands;
 
-import business.entities.*;
+import business.entities.Carport;
+import business.entities.Request;
+import business.entities.Request_obj;
+import business.entities.User;
 import business.exceptions.UserException;
+import business.persistence.RequestMapper;
 import business.services.CarportFacade;
 import business.services.RequestFacade;
 import business.services.UserFacade;
@@ -13,37 +17,30 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowRequestpage extends CommandProtectedPage {
+public class Requestpage extends CommandProtectedPage {
     RequestFacade requestFacade;
     CarportFacade carportFacade;
     UserFacade userFacade;
 
-    public ShowRequestpage(String pageToShow, String role) {
+    public Requestpage(String pageToShow, String role) {
         super(pageToShow, role);
         requestFacade = new RequestFacade(database);
         carportFacade = new CarportFacade(database);
         userFacade = new UserFacade(database);
-    }
 
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
-        HttpSession session = request.getSession();
-        ServletContext servletContext = request.getServletContext();
+        try {
+            HttpSession session = request.getSession();
+            List<Request_obj> requestList = requestFacade.getAllRequest2("requested");
+            session.setAttribute("requestList22", requestList);
+            return pageToShow;
 
-        String string = "requested";
-        List<Request> list = requestFacade.getAllRequest(string);// fetch all request(c_id,u_id,status) from db where status=requested
-        List<Request_obj> list2 = new ArrayList<>();
-
-        for (Request item: list) {
-            Carport c = carportFacade.getCarport(item.getCarport_id());
-            User u = userFacade.getUser(item.getUser_id());
-            Request_obj request_obj = new Request_obj(u,c,string);
-            list2.add(request_obj);
+        } catch (UserException exception) {
+            request.getSession().setAttribute("error", "somehow you messed up the input on the form");
         }
-        session.setAttribute("requestList22", list2);
-
-
 
         return pageToShow;
     }

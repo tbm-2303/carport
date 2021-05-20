@@ -1,43 +1,57 @@
 package web.commands;
 
+import business.entities.Carport;
+import business.entities.Request;
+import business.entities.Request_obj;
 import business.entities.User;
+import business.services.CarportFacade;
+import business.services.RequestFacade;
 import business.services.UserFacade;
 import business.exceptions.UserException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LoginCommand extends CommandUnprotectedPage
-{
+public class LoginCommand extends CommandUnprotectedPage {
     private UserFacade userFacade;
+    RequestFacade requestFacade;
+    CarportFacade carportFacade;
 
-    public LoginCommand(String pageToShow)
-    {
+    public LoginCommand(String pageToShow) {
         super(pageToShow);
         userFacade = new UserFacade(database);
+        requestFacade = new RequestFacade(database);
+        carportFacade = new CarportFacade(database);
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException
-    {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
         try {
-        User user = userFacade.login(email, password);
+            HttpSession session = request.getSession();
+            ServletContext servletContext = request.getServletContext();
+            User user = userFacade.login(email, password);
 
-        HttpSession session = request.getSession();
+            if (user.getRole().equals("customer")) {
+                pageToShow = "index";
+            }
+            if (user.getRole().equals("employee")) {
+                pageToShow = "employeepage";
 
-        session.setAttribute("user", user);
-        session.setAttribute("role", user.getRole());
-        session.setAttribute("email", email);
+            }
 
-        String pageToShow = "index";
-        return REDIRECT_INDICATOR + pageToShow;
-        }
-        catch (UserException ex)
-        {
+            session.setAttribute("user", user);
+            session.setAttribute("email", email);
+            session.setAttribute("role", user.getRole());
+
+
+            return REDIRECT_INDICATOR + pageToShow;
+        } catch (UserException ex) {
             request.setAttribute("error", "Wrong username or password!");
             return "loginpage";
         }

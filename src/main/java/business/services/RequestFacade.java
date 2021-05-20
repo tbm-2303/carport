@@ -23,4 +23,8 @@ public class RequestFacade {
     public List<Request> getAllRequest(String status) throws UserException {
        return requestMapper.getAllRequest(status);
     }
+    public List<Request_obj> getAllRequest2(String status) throws UserException {
+        return requestMapper.getAllRequest2(status);
+    }
+
 }

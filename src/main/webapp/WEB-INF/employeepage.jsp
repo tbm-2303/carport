@@ -9,8 +9,11 @@
     <jsp:attribute name="footer">
     </jsp:attribute>
     <jsp:body>
-        <h1>Hello ${sessionScope.email} </h1>
-        You are now logged in as a EMPLOYEE of our wonderful site.
+        <h1>Admin email: ${sessionScope.email} </h1>
+        <c:if test="${sessionScope.role == 'employee' }">
+            <p><a href="${pageContext.request.contextPath}/fc/viewrequestspage">process request</a>
 
+
+        </c:if>
     </jsp:body>
 </t:genericpage>

@@ -1,17 +1,25 @@
 package web;
 
+import business.entities.Request;
 import business.exceptions.UserException;
 import business.persistence.Database;
+import business.services.RequestFacade;
+import com.sun.xml.internal.ws.api.policy.PolicyResolver;
 import web.commands.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.rmi.server.ServerCloneException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "FrontController", urlPatterns = {"/fc/*"})
@@ -22,7 +30,6 @@ public class FrontController extends HttpServlet
     private final static String URL = "jdbc:mysql://localhost:3306/carportdb?serverTimezone=CET";
 
     public static Database database;
-
     public void init() throws ServletException
     {
         // Initialize database connection
@@ -37,9 +44,6 @@ public class FrontController extends HttpServlet
                 Logger.getLogger("web").log(Level.SEVERE, ex.getMessage(), ex);
             }
         }
-
-
-
         // Initialize whatever global datastructures needed here:
 
     }

@@ -5,7 +5,6 @@ public class Request {
     private int carport_id;
     private int user_id;
     private String status;
-
     private int request_id;
 
     public Request(int carport_id, int user_id, String status) {

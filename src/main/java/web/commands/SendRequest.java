@@ -19,7 +19,7 @@ public class SendRequest extends CommandUnprotectedPage {
     private ItemFacade itemFacade;
     private RequestFacade requestFacade;
     private CarportFacade carportFacade;
-    private int start = 240;
+    private int start = 2400;
 
 
     public SendRequest(String pageToShow) {
@@ -42,7 +42,7 @@ public class SendRequest extends CommandUnprotectedPage {
         }
 
         for (int i = 2400; i < 7510; i += 2500) {
-            if (width > i + 250) {
+            if (width > i + 2500) {
                 for (int j = 0; j < 4; j++) {
                     listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 3 for each 250cm width added
                 }
@@ -55,17 +55,20 @@ public class SendRequest extends CommandUnprotectedPage {
                 listy.add(itemFacade.SelectItemFromDB("Spær", length));// 1 for each 55cm length added
             }
         }
-        if (shed_length > 0 || shed_width > 0) {
-            for (int i = 0; i < 4; i++) {
-                listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));//3 if shed is added
-            }
-            if (shed_length > (length * 0.75)) {
-                listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 1 additional if shed length is over threshold
-            }
-            if (shed_width > (width * 0.75)) {
-                listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 1 additional if shed width is over threshold
+        if (length >= shed_length || width >= shed_width) {
+            if (shed_length > 0 || shed_width > 0) {
+                for (int i = 0; i < 4; i++) {
+                    listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));//3 if shed is added
+                }
+                if (shed_length > (length * 0.75)) {
+                    listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 1 additional if shed length is over threshold
+                }
+                if (shed_width > (width * 0.75)) {
+                    listy.add(itemFacade.SelectItemFromDB("Stolpe", 3000));// 1 additional if shed width is over threshold
+                }
             }
         }
+
         return listy;
     }
 
@@ -78,43 +81,36 @@ public class SendRequest extends CommandUnprotectedPage {
             int shed_length = Integer.parseInt(request.getParameter("shed_length"));
             int shed_width = Integer.parseInt(request.getParameter("shed_width"));
 
-
             if (length < 240 || width < 240 || length > 780 || width > 750) {
-                request.getSession().setAttribute("error", "somehow you messed up the input on the form");
+                request.getSession().setAttribute("error", "somehow you messed up the input on the form. GJ");
             }
             HttpSession session = request.getSession();
             ServletContext servletContext = request.getServletContext();
-
-
-            List<Item> listy2 = CustomCarportRecipe(length, width, shed_width, shed_length);// generates itemlist
+            //itemlist
+            List<Item> listy = CustomCarportRecipe(length, width, shed_width, shed_length);
             User user = (User) session.getAttribute("user");
+            //price
             double price = 0;
-            for (Item item : listy2) {
+            for (Item item : listy) {
                 double itemprice = item.getPrice();
                 price += itemprice;
             }
-            Carport carport = new Carport(price, length, width, shed_length, shed_width, "flat", "info");
-            int carport_id = carportFacade.createCarportCustom(carport);
-            carport.setId(carport_id);
+            //carport
+            Carport carport = carportFacade.createCarportCustom(new Carport(price, length, width, shed_length, shed_width, "flat", "info"));
+            carport.setItemList(listy);
+            //request
+            Request_obj request1 = requestFacade.createRequest(new Request_obj(user, carport, "requested"));
+            //requestList
+           /* List<Request_obj> requestyList = (List<Request_obj>) servletContext.getAttribute("requestList");
 
-            Request_obj request_temp = new Request_obj(user, carport, "requested");
-            requestFacade.createRequest(request_temp);
-
-            //Requesty request1 = new Requesty(width, length, shed_length, shed_width, user, listy2);
-            //request1.setCarport_id(carport_id);
-            // int request_id = requestFacade.createRequest(request1);
-            //request1.setId(request_id);
-
-
-            //  List<Requesty> requestyList;
-            //  requestyList = (List<Requesty>) request.getSession().getAttribute("requestList");
-            //  if (requestyList == null) {
-            //  requestyList = new ArrayList<>();
-            //  }
-            //  requestyList.add(request1);
-            //  servletContext.setAttribute("requestList", requestyList);
+            if (requestyList == null) {
+                requestyList = new ArrayList<>();
+            }
+            requestyList.add(request1);
+            servletContext.setAttribute("requestList", requestyList);
 
 
+            */
         } catch (InputMismatchException | SQLException e) {
             request.getSession().setAttribute("error", "somehow you messed up the input on the form");
         }
