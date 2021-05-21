@@ -23,9 +23,12 @@ public class RequestFacade {
     public List<Request_obj> getAllRequest2(String status) throws UserException {
         return requestMapper.getAllRequest2(status);
     }
-    public List<Request_obj> getAllRequest3(int user_id) throws UserException, SQLException {
-        return requestMapper.getAllRequest3(user_id);
+    public List<Request_obj> getAllRequest3(int user_id, String status) throws UserException {
+        return requestMapper.getAllRequest3(user_id,status);
     }
 
 
+    public void markAsFailed(Request_obj request_obj) {
+        requestMapper.markAsFailed(request_obj);
+    }
 }

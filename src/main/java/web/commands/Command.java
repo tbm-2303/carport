@@ -29,11 +29,10 @@ public abstract class Command
         commands.put("customerpage", new CommandProtectedPage("customerpage", "customer"));
         commands.put("employeepage", new CommandProtectedPage("employeepage", "employee"));
 
-        commands.put("sendrequestpage", new CommandProtectedPage("sendrequest","customer"));//shows 'sendrequest' page
-        commands.put("viewrequestspage", new Requestpage("viewrequests", "employee"));//shows 'viewrequests' page
-        commands.put("viewmyofferpage", new CommandProtectedPage("viewmyoffer", "customer"));//shows 'viewmyofffer' page
-        commands.put("sendRequest", new SendRequest("index"));
-
+        commands.put("sendrequestpage", new CommandProtectedPage("sendrequest","customer"));//shows: sendrequest.jsp
+        commands.put("viewmyrequest", new ViewMyRequestPage("viewmyoffer", "customer"));//CUSTOMER: shows this customers request
+        commands.put("sendRequestCommand", new SendRequest("index")); // send request
+        commands.put("viewrequestspage", new Requestpage("viewrequests", "employee"));//ADMIN: shows all requests
 
 
         //commands.put("showrequstpage", new ShowRequestpage("viewrequests", "employee"));

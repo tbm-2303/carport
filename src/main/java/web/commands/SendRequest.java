@@ -75,43 +75,49 @@ public class SendRequest extends CommandUnprotectedPage {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
 
         try {
+
             int length = Integer.parseInt(request.getParameter("length"));
             int width = Integer.parseInt(request.getParameter("width"));
             int shed_length = Integer.parseInt(request.getParameter("shed_length"));
             int shed_width = Integer.parseInt(request.getParameter("shed_width"));
-
             HttpSession session = request.getSession();
             ServletContext servletContext = request.getServletContext();
-            //itemlist
-            List<Item> listy = CustomCarportRecipe(length, width, shed_width, shed_length);
+
+
             User user = (User) session.getAttribute("user");
-            //price
-            double price = 0;
-            for (Item item : listy) {
-                double itemprice = item.getPrice();
-                price += itemprice;
+
+
+            //hvis kunden HAR TILKNYTNING til request fra tidligere sessions.
+            if (user.getRequest_objList() != null) {
+                session.setAttribute("error", "Du har allerede en forespørgsel på en carport. Du kan ikke lave flere forespørgsler før " +
+                        "vi har behandlet din nuværende forespørsel.");
+                return "index";
             }
-            //carport
-            Carport carport = carportFacade.createCarportCustom(new Carport(price, length, width, shed_length, shed_width, "flat", "info"));
-            carport.setItemList(listy);
 
-            //request
-            Request_obj request1 = requestFacade.createRequest(new Request_obj(user, carport, "requested"));
+            //hvis kunden IKKE HAR TILKNYTNING til request fra tidligere sessions
+            else {
+                //itemlist
+                List<Item> listy = CustomCarportRecipe(length, width, shed_width, shed_length);
 
-            //requestList
-            List<Request_obj> requestyList = (List<Request_obj>) session.getAttribute("requestList");
+                //price
+                double price = 0;
+                for (Item item : listy) {
+                    double itemprice = item.getPrice();
+                    price += itemprice;
+                }
 
-            if (requestyList == null) {
-                requestyList = new ArrayList<>();
+                //carport
+                Carport carport = carportFacade.createCarportCustom(new Carport(price, length, width, shed_length, shed_width, "flat", "info"));
+
+                carport.setItemList(listy);
+                //request
+
+                Request_obj request1 = requestFacade.createRequest(new Request_obj(user, carport, "requested"));
+                return REDIRECT_INDICATOR + pageToShow;
             }
-            requestyList.add(request1);
-            session.setAttribute("requestList", requestyList);
-
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            request.setAttribute("error", "Wrong username or password!");
+            return "loginpage";
         }
-        return REDIRECT_INDICATOR + pageToShow;
     }
-
 }

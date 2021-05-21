@@ -14,7 +14,7 @@
     <jsp:body>
         <div>
 
-            <form id="form" method="post" action="${pageContext.request.contextPath}/fc/sendRequest">
+            <form id="form" method="post" action="${pageContext.request.contextPath}/fc/sendRequestCommand">
                 <div class="row">
                     <div class="col">
                         <div class="form-group">

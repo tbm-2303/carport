@@ -13,45 +13,54 @@
     </jsp:attribute>
 
     <jsp:body>
-
-        <c:if test="${sessionScope.user.offerList != null}">
-
-
+        Her kan du se den custom carport du har sendt en forespørgsel på:
+        <c:if test="${sessionScope.user.role == 'customer'}">
+            <form action="${pageContext.request.contextPath}/fc/updateCommand" method="post">
                 <table class="table table-success table-striped">
                     <thead>
                     <tr>
+                        <th scope="col">Request ID</th>
                         <th scope="col">User email</th>
                         <th scope="col">Width</th>
                         <th scope="col">Length</th>
                         <th scope="col">ShedLength</th>
                         <th scope="col">ShedWidth</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Price</th>
                     </tr>
                     </thead>
-                    <c:forEach var="var" items="${applicationScope.offerList}" varStatus="status">
-                        <c:if test="${applicationScope.offerList.get(status.index).user.id == sessionScope.user.id}">
+                    <c:forEach var="var" items="${sessionScope.requestList_customer}" varStatus="status">
+                        <c:if test="${sessionScope.requestList_customer.get(status.index).user.id == sessionScope.user.id}">
                             <tr>
-                                <td>${var.user.email}</td>
-                                <td>${var.width}</td>
-                                <td>${var.length}</td>
-                                <td>${var.shed_length}</td>
-                                <td>${var.shed_width}</td>
-                                <td>${var.price}</td>
-                            </tr>
+                            <td>${var.request_id}</td>
+                            <td>${var.user.email}</td>
+                            <td>${var.carport.width}</td>
+                            <td>${var.carport.length}</td>
+                            <td>${var.carport.shed_length}</td>
+                            <td>${var.carport.shed_width}</td>
+                            <td>${var.status}</td>
+                            <td>${var.carport.price}</td>
+                            <c:if test="${var.status == 'processed'}">
+                                <td>
+                                    <button type="submit" class=" btn btn-danger" name="remove"
+                                            value="${var.request_id}">Remove
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="submit" class=" btn btn-danger" name="confirm"
+                                            value="${var.request_id}">confirm
+                                    </button>
+                                </td>
+                                </tr>
+                            </c:if>
                         </c:if>
                     </c:forEach>
+
+                    <c:if test="${requestScope.error != null}">
+                        <p style="color: red">${requestScope.error}</p>
+                    </c:if>
                 </table>
-
-
-            <div class="card">
-                <a href="${pageContext.request.contextPath}/fc/ConfirmOrder" class="btn btn-outline-success"
-                   role="button">Accept Offer</a>
-            </div>
-
-            <div class="card">
-                <a href="${pageContext.request.contextPath}/fc/CancelOrder" class="btn btn-outline-success"
-                   role="button">Reject offer</a>
-            </div>
+            </form>
 
 
         </c:if>

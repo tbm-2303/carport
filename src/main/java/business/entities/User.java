@@ -18,6 +18,27 @@ public class User {
     private String adress;
     private String name;
 
+    private Carport carport;
+    private List<Request_obj> request_objList;
+    private Order order;
+
+
+    public Carport getCarport() {
+        return carport;
+    }
+
+    public void setCarport(Carport carport) {
+        this.carport = carport;
+    }
+
+    public List<Request_obj> getRequest_objList() {
+        return request_objList;
+    }
+
+    public void setRequest_objList(List<Request_obj> request_objList) {
+        this.request_objList = request_objList;
+    }
+
     public String getAdress() {
         return adress;
     }

@@ -31,7 +31,7 @@
                     <th scope="col">Selling Price</th>
                 </tr>
                 </thead>
-                <c:forEach var="var" items="${sessionScope.requestList22}" varStatus="status">
+                <c:forEach var="var" items="${sessionScope.requestList_admin}" varStatus="status">
                     <tr>
                         <td>${var.request_id}</td>
                         <td>${var.user.email}</td>
@@ -69,12 +69,12 @@
                     </button>
                 </c:if>
             </div>
-
+            </form>
         </c:if>
 
         <c:if test="${requestScope.error != null}">
             <p style="color: red">${requestScope.error}</p>
         </c:if>
-        </form>
+
     </jsp:body>
 </t:genericpage>

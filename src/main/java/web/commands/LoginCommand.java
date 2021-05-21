@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginCommand extends CommandUnprotectedPage {
-    private UserFacade userFacade;
-    RequestFacade requestFacade;
-    CarportFacade carportFacade;
+    private final UserFacade userFacade;
+    private final RequestFacade requestFacade;
+    private final CarportFacade carportFacade;
 
     public LoginCommand(String pageToShow) {
         super(pageToShow);
@@ -31,34 +31,20 @@ public class LoginCommand extends CommandUnprotectedPage {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
-
-
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             HttpSession session = request.getSession();
             ServletContext servletContext = request.getServletContext();
             User user = userFacade.login(email, password);
-
-            if (user.getRole().equals("customer")) {
-                pageToShow = "index";
-                List<Request_obj> requestList = requestFacade.getAllRequest3(user.getId());
-                session.setAttribute("requestList", requestList);
-            }
-            if (user.getRole().equals("employee")) {
-                pageToShow = "employeepage";
-
-            }
-
             session.setAttribute("user", user);
             session.setAttribute("role", user.getRole());
             session.setAttribute("email", email);
+            return "index";
 
-            return REDIRECT_INDICATOR + pageToShow;
-        } catch (UserException | SQLException ex) {
+        } catch (UserException ex) {
             request.setAttribute("error", "Wrong username or password!");
             return "loginpage";
         }
     }
-
 }

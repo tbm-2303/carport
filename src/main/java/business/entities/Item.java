@@ -5,18 +5,18 @@ public class Item {
    private String info;
     private String name;
     private double price;
-    private int id;
-    private int quantity=1;
-    private int lenght;
+    private int item_id;
+    private int quantity;
+    private int length;
     private int width;
 
 
-    public Item(int id, String info, String name, double price, int lenght, int width) {
-        this.id = id;
+    public Item(int id, String info, String name, double price, int length, int width) {
+        this.item_id = id;
         this.name = name;
         this.price = price;
         this.width = width;
-        this.lenght = lenght;
+        this.length = length;
         this.info = info;
 
     }
@@ -53,16 +53,16 @@ public class Item {
         this.price = price;
     }
 
-    public int getId() {
-        return id;
+    public int getItem_id() {
+        return item_id;
     }
 
-    public int getLenght() {
-        return lenght;
+    public int getLength() {
+        return length;
     }
 
-    public void setLenght(int lenght) {
-        this.lenght = lenght;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public int getWidth() {
@@ -73,7 +73,7 @@ public class Item {
         this.width = width;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setItem_id(int item_id) {
+        this.item_id = item_id;
     }
 }

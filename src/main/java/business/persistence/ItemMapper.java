@@ -19,7 +19,7 @@ public class ItemMapper {
     }
 
 
-    public Item SelectItemFromDB(String name, int length) throws SQLException, UserException {
+    public Item SelectItemFromDB(String name, int length) throws UserException {
         try (Connection connection = database.connect()) {
             String sql = "SELECT * FROM item WHERE `name` = ? and length = ?";
 
@@ -106,10 +106,7 @@ public class ItemMapper {
                 throw new UserException("Connection to database could not be established");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new UserException(e.getMessage());
         }
-        return null;
     }
-
-
 }

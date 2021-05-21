@@ -23,27 +23,28 @@ public class CarportMapper {
         try (Connection connection = database.connect()) {
             String sql = "SELECT * FROM carport";
 
-            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 List<Carport> carportList = new ArrayList<>();
                 while (rs.next()) {
                     String info = rs.getString("info");
                     double price = rs.getDouble("price");
-                    double profit = rs.getDouble("profit");
+                    double selling_price = rs.getDouble("selling_price");
                     int length = rs.getInt("length");
                     int width = rs.getInt("width");
                     int shed_width = rs.getInt("shed_width");
                     int shed_length = rs.getInt("shed_length");
-                    ResultSet ids = ps.getGeneratedKeys();
-                    ids.next();
-                    int id = ids.getInt(1);
+                    int id = rs.getInt("carport_id");
                     Carport carport = new Carport(price, length, width, shed_length, shed_width, "flat", info);
                     carport.setId(id);
                     carportList.add(carport);
                 }
                 return carportList;
             }
-        } catch (SQLException ex) {
+            catch (SQLException ex) {
+                throw new UserException("Connection to database could not be established");
+            }
+        } catch (SQLException e) {
             throw new UserException("Connection to database could not be established");
         }
     }
@@ -68,21 +69,21 @@ public class CarportMapper {
                 int id = ids.getInt(1);
                 carport.setId(id);
                 //link table
-               // Linktable(carport);
+                // Linktable(carport);
                 return carport;
 
             } catch (SQLException ex) {
                 throw new UserException(ex.getMessage());
             }
-        } catch (SQLException | UserException ex) {
-            throw new UserException(ex.getMessage());
+        } catch (SQLException e) {
+            throw new UserException(e.getMessage());
         }
     }
 
     public void Linktable(Carport carport) throws UserException {
 
         for (Item item : carport.getItemList()) {
-            itemFacade.Linktable(carport.getId(), item.getId());
+            itemFacade.Linktable(carport.getId(), item.getItem_id());
         }
     }
 
@@ -106,11 +107,16 @@ public class CarportMapper {
                     carport.setId(carport_id);
                     return carport;
                 }
+                else{
+                    throw new UserException("bla");
+                }
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
             }
         } catch (SQLException ex) {
-            throw new UserException("carportMapper problems");
+            throw new UserException("database error");
         }
-
-        return null;
     }
 }
+
+

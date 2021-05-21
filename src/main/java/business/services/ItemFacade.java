@@ -19,7 +19,7 @@ public class ItemFacade {
         itemMapper = new ItemMapper(database);
     }
 
-    public Item SelectItemFromDB(String name, int length) throws UserException, SQLException {
+    public Item SelectItemFromDB(String name, int length) throws UserException {
         return itemMapper.SelectItemFromDB(name,length);
     }
 
