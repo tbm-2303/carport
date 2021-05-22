@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LoginCommand extends CommandUnprotectedPage {
@@ -35,11 +36,16 @@ public class LoginCommand extends CommandUnprotectedPage {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             HttpSession session = request.getSession();
-            ServletContext servletContext = request.getServletContext();
+
             User user = userFacade.login(email, password);
             session.setAttribute("user", user);
             session.setAttribute("role", user.getRole());
             session.setAttribute("email", email);
+            List<Request_obj> requestList = requestFacade.getAllRequest3(user.getId(), "requested");
+            if (requestList.isEmpty()) {
+                session.setAttribute("requestList_customer_login", null);
+            }
+            session.setAttribute("requestList_customer_login",requestList);
             return "index";
 
         } catch (UserException ex) {

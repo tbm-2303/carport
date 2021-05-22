@@ -29,8 +29,8 @@
                         <th scope="col">Price</th>
                     </tr>
                     </thead>
-                    <c:forEach var="var" items="${sessionScope.requestList_customer}" varStatus="status">
-                        <c:if test="${sessionScope.requestList_customer.get(status.index).user.id == sessionScope.user.id}">
+                    <c:forEach var="var" items="${requestScope.requestList_customer}" varStatus="status">
+                        <c:if test="${requestScope.requestList_customer.get(status.index).user.id == sessionScope.user.id}">
                             <tr>
                             <td>${var.request_id}</td>
                             <td>${var.user.email}</td>
@@ -43,12 +43,12 @@
                             <c:if test="${var.status == 'processed'}">
                                 <td>
                                     <button type="submit" class=" btn btn-danger" name="remove"
-                                            value="${var.request_id}">Remove
+                                            value="${var.request_id}">Decline offer
                                     </button>
                                 </td>
                                 <td>
                                     <button type="submit" class=" btn btn-danger" name="confirm"
-                                            value="${var.request_id}">confirm
+                                            value="${var.request_id}">Accept offer
                                     </button>
                                 </td>
                                 </tr>

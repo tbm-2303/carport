@@ -68,8 +68,8 @@ public class RequestMapper {
                     Carport carport = carportFacade.getCarport(carport_id);
                     Request_obj request_obj = new Request_obj(user, carport, status);
                     request_obj.setRequest_id(request_id);
-                    //List<Item> itemlist = itemFacade.getItemList(carport_id);
-                    //request_obj.getCarport().setItemList(itemlist);
+                    List<Item> itemlist = itemFacade.getItemList(carport_id);
+                    request_obj.getCarport().setItemList(itemlist);
                     requestList.add(request_obj);
                 }
                 return requestList;
@@ -126,8 +126,7 @@ public class RequestMapper {
                 ids.next();
                 int id = ids.getInt(1);
                 request.setRequest_id(id);
-            }
-            catch (SQLException ex) {
+            } catch (SQLException ex) {
                 throw new UserException(ex.getMessage());
             }
         } catch (SQLException ex) {
