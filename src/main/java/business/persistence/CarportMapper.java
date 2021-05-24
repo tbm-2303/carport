@@ -162,6 +162,39 @@ public class CarportMapper {
             e.printStackTrace();
         }
     }
+
+    public List<Carport> getAllStandardCarports(int status) {
+
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM carport WHERE custom=?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, status);
+                ResultSet rs = ps.executeQuery();
+                List<Carport> carportList = new ArrayList<>();
+                while (rs.next()) {
+                    String info = rs.getString("info");
+                    double price = rs.getDouble("price");
+                    double selling_price = rs.getDouble("selling_price");
+                    int length = rs.getInt("length");
+                    int width = rs.getInt("width");
+                    int shed_width = rs.getInt("shed_width");
+                    int shed_length = rs.getInt("shed_length");
+                    int id = rs.getInt("carport_id");
+                    Carport carport = new Carport(price, length, width, shed_length, shed_width, "flat", info);
+                    carport.setId(id);
+                    carportList.add(carport);
+                }
+                return carportList;
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
 

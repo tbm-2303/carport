@@ -7,18 +7,16 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class Command
-{
+public abstract class Command {
     //Return a token string from the execute method to make a client side redirect,
     // instead of a server side (forward) redirect
     public final static String REDIRECT_INDICATOR = "#*redirect*#_###_";
-    public final static String WAS_NOT_FOUND_COMMAND ="404_NOT_FOUND";
+    public final static String WAS_NOT_FOUND_COMMAND = "404_NOT_FOUND";
 
     private static HashMap<String, Command> commands;
     public static Database database;
 
-    private static void initCommands(Database database)
-    {
+    private static void initCommands(Database database) {
         commands = new HashMap<>();
         commands.put("index", new CommandUnprotectedPage("index"));
         commands.put("loginpage", new CommandUnprotectedPage("loginpage"));
@@ -29,33 +27,30 @@ public abstract class Command
         commands.put("customerpage", new CommandProtectedPage("customerpage", "customer"));
         commands.put("employeepage", new CommandProtectedPage("employeepage", "employee"));
 
-        commands.put("sendrequestpage", new CommandProtectedPage("sendrequest","customer"));//shows: sendrequest.jsp
+        commands.put("sendrequestpage", new CommandProtectedPage("sendrequest", "customer"));//shows: sendrequest.jsp
         commands.put("viewmyrequest", new ViewMyRequestPage("viewmyoffer", "customer"));//CUSTOMER: shows this customers request
         commands.put("sendRequestCommand", new SendRequest("index")); // send request
         commands.put("viewrequestspage", new Requestpage("viewrequests", "employee"));//ADMIN: shows all requests
         commands.put("createorder", new CreateOrderCommand("viewmyoffer", "customer"));
-        commands.put("vieworderspage" , new OrderPage("vieworders", "employee"));
-        commands.put("viewuserpage", new CustomerPage("viewcustomers","employee"));
-        commands.put("updateRequestCommand",  new UpdateRequestCommand("viewrequests","employee"));
+        commands.put("vieworderspage", new OrderPage("vieworders", "employee"));
+        commands.put("viewuserpage", new CustomerPage("viewcustomers", "employee"));
+        commands.put("updateRequestCommand", new UpdateRequestCommand("viewrequests", "employee"));
+        commands.put("standardcarportpage", new StandardCarportPage("standardCarport", "customer"));
 
 
         //commands.put("showrequstpage", new ShowRequestpage("viewrequests", "employee"));
         //commands.put("updateCommand", new UpdateCommand("viewrequests", "employee"));
 
 
-
-
     }
 
     public static Command fromPath(
             HttpServletRequest request,
-            Database db)
-    {
+            Database db) {
         String action = request.getPathInfo().replaceAll("^/+", "");
         System.out.println("--> " + action);
 
-        if (commands == null)
-        {
+        if (commands == null) {
             database = db;
             initCommands(database);
         }
