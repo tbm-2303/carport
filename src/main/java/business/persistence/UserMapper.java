@@ -1,9 +1,12 @@
 package business.persistence;
 
+import business.entities.Carport;
 import business.exceptions.UserException;
 import business.entities.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserMapper {
     private Database database;
@@ -78,13 +81,45 @@ public class UserMapper {
                     user.setAdress(adress);
                     user.setId(user_id);
                     return user;
-                } else {
-                    throw new UserException("Could not validate user");
                 }
             } catch (SQLException ex) {
                 throw new UserException(ex.getMessage());
             }
         } catch (SQLException ex) {
+            throw new UserException("Connection to database could not be established");
+        }
+        return null;
+    }
+
+
+    public List<User> getAllUsers() throws UserException{
+
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM `user`";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                List<User> userList = new ArrayList<>();
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String adress = rs.getString("adress");
+                    String telephone = rs.getString("telephone");
+                    String role = rs.getString("role");
+                    String password = rs.getString("password");
+                    int user_id = rs.getInt("user_id");
+                    User user = new User(email, password, role);
+                    user.setNumber(telephone);
+                    user.setName(name);
+                    user.setAdress(adress);
+                    user.setId(user_id);
+                    userList.add(user);
+                }
+                return userList;
+            } catch (SQLException ex) {
+                throw new UserException("Connection to database could not be established");
+            }
+        } catch (SQLException e) {
             throw new UserException("Connection to database could not be established");
         }
     }

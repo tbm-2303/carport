@@ -1,5 +1,7 @@
 package business.entities;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class Request_obj {
@@ -8,13 +10,17 @@ public class Request_obj {
     private String status;
 
     private int request_id;
-    private List<Item> itemList;
+    public List<Item> itemList;
+
+
+
 
     public Request_obj(User user, Carport carport, String status) {
         this.user = user;
         this.carport = carport;
         this.status = status;
     }
+
 
     public List<Item> getItemList() {
         return itemList;
@@ -54,5 +60,9 @@ public class Request_obj {
 
     public void setRequest_id(int request_id) {
         this.request_id = request_id;
+    }
+
+    public String getName() {
+        return getUser().getName();
     }
 }

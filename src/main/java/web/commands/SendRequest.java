@@ -88,10 +88,16 @@ public class SendRequest extends CommandUnprotectedPage {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
 
-            List<Request_obj> requestList_customer = (List<Request_obj>) session.getAttribute("requestList_customer_login");
+            List<Request_obj> requestList = requestFacade.getAllRequest3(user.getId(), "requested");
 
-            if (requestList_customer == null) {
-                requestList_customer = new ArrayList<>();
+            //List<Request_obj> requestList_customer = (List<Request_obj>) session.getAttribute("requestList_customer_login");
+
+            if (shed_width > width || shed_length > length) {
+                request.setAttribute("error", "You cant select a shed width or shed width greater then the length or width of the carport.");
+                return "index";
+            }
+            if (requestList.isEmpty()) {
+
                 //itemlist
                 List<Item> listy = CustomCarportRecipe(length, width, shed_width, shed_length);
                 //price
@@ -105,14 +111,14 @@ public class SendRequest extends CommandUnprotectedPage {
                 carport.setItemList(listy);
                 //request
                 Request_obj request1 = requestFacade.createRequest(new Request_obj(user, carport, "requested"));
-                requestList_customer.add(request1);
-                session.setAttribute("requestList_customer_login", requestList_customer);
-            }
-            else {
-                request.setAttribute("error", "You already made a request for a custom carport. Please wait for us to procees request " +
-                        "before making a new request.");
+                requestList.add(request1);
+                //session.setAttribute("requestList_customer", requestList);
+            } else {
+                request.setAttribute("error", "You already made a request for a custom carport."+
+                        "You cannot make another request before the your current request is resolved");
             }
             return "index";
+
 
         } catch (UserException e) {
             request.setAttribute("error", "1");

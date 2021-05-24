@@ -15,7 +15,9 @@
         <div>
 
             <form id="form" method="post" action="${pageContext.request.contextPath}/fc/sendRequestCommand">
+
                 <div class="row">
+
                     <div class="col">
                         <div class="form-group">
                             <label class="form-check-label" for="length">Length:</label>
@@ -43,7 +45,7 @@
 
                 <div class="col">
                     <div class="form-group">
-                        <label class="form-check-label" for="shed_length">Length:</label>
+                        <label class="form-check-label" for="shed_length">Shed Length:</label>
                         <select class="form-control" name="shed_length" id="shed_length">
                             <option value="0">No Shed</option>
                             <c:forEach var="var" begin="1500" end="6900" step="300">
@@ -56,7 +58,7 @@
 
                 <div class="col">
                     <div class="form-group">
-                        <label class="form-check-label" for="shed_width">Width:</label>
+                        <label class="form-check-label" for="shed_width">Shed Width:</label>
                         <select class="form-control" name="shed_width" id="shed_width">
                             <option value="0">No Shed</option>
                             <c:forEach var="var" begin="2100" end="7200" step="300">

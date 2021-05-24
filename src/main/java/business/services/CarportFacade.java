@@ -34,11 +34,20 @@ public class CarportFacade {
 
     }
 
-    public void updateCarportPrice(double price) {
-
-    }
 
     public void deleteCarport(int carport_id) {
 
+    }
+
+    public void removeCarportFromDB(int carport_id) {
+        carportMapper.removeCarportFromDB(carport_id);
+    }
+
+    public void updateCarport(int carport_id, Carport carport) {
+        carportMapper.updateCarport(carport_id, carport);
+    }
+
+    public void updateCarportPrice(int carport_id, double price) {
+        carportMapper.updateCarportPrice(carport_id, price);
     }
 }

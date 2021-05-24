@@ -2,27 +2,52 @@
 package web.commands;
 
 
+import business.entities.*;
 import business.exceptions.UserException;
+import business.services.OrderFacade;
+import business.services.RequestFacade;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class UpdateCommand extends CommandProtectedPage {
+public class CreateOrderCommand extends CommandProtectedPage {
+    private RequestFacade requestFacade;
+    private OrderFacade orderFacade;
 
-
-    public UpdateCommand(String pageToShow, String role) {
+    public CreateOrderCommand(String pageToShow, String role) {
         super(pageToShow, role);
+        this.requestFacade = new RequestFacade(database);
+        this.orderFacade = new OrderFacade(database);
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws UserException {
 
 
+        try {
+            HttpSession session = request.getSession();
 
-
-
-
-        return pageToShow;
+            if (request.getParameter("accept") != null) {
+                Request_obj request_obj = requestFacade.getRequest(Integer.parseInt(request.getParameter("accept")));
+                Date date = new Date();
+                long time = date.getTime();
+                Timestamp ts = new Timestamp(time);
+                requestFacade.updateRequestStatus(request_obj.getRequest_id(), "ordered");
+                request_obj.setStatus("ordered");
+                orderFacade.createOrder(request_obj, ts);
+            }
+            return "index";
+        } catch (UserException ex) {
+            request.setAttribute("error", ex.getMessage());
+            return "index";
+        }
     }
 
     /*

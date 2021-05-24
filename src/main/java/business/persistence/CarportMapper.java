@@ -117,6 +117,51 @@ public class CarportMapper {
             throw new UserException("database error");
         }
     }
+
+    public void removeCarportFromDB(int carport_id) {
+
+        try (Connection connection = database.connect()) {
+            String sql = "DELETE FROM carport WHERE carport_id=?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, carport_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCarport(int carport_id, Carport carport) {
+        try (Connection connection = database.connect()) {
+            String sql = "update carport set length=?, width=?, shed_length=?, shed_width=?, price=? where carport_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, carport.getLength());
+                ps.setInt(2, carport.getWidth());
+                ps.setInt(3, carport.getShed_length());
+                ps.setInt(4, carport.getShed_width());
+                ps.setDouble(4, carport.getPrice());
+                ps.setInt(5,carport_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateCarportPrice(int carport_id, double price) {
+        try (Connection connection = database.connect()) {
+            String sql = "update carport set price=? where carport_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setDouble(1, price);
+                ps.setInt(2, carport_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 

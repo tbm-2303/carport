@@ -13,10 +13,21 @@
 
 
         <c:if test="${sessionScope.role == 'employee' }">
-            <h1>Admin email: ${sessionScope.email} </h1>
+            <h5>Admin email: ${sessionScope.email} </h5>
             <p><a href="${pageContext.request.contextPath}/fc/viewrequestspage">process requests as admin</a>
         </c:if>
 
+        <c:if test="${sessionScope.role == 'employee' }">
+            <h5> On the OrderPage you can view all orders and you can general information about the orders in the system.</h5>
+            <h5> ** there should be a list of usefull information. And there should be a link to a more in depth page </h5>
+            <h5> You can access information about specific orders by clicking them </h5>
+            <p><a href="${pageContext.request.contextPath}/fc/vieworderspage">Go to OrderPage </a>
+        </c:if>
+
+        <c:if test="${sessionScope.role == 'employee' }">
+            <h5> On the UserPage you can view all users in the system. You access the orderhistory of the a user by clicking them</h5>
+            <p><a href="${pageContext.request.contextPath}/fc/viewuserpage">Go to UserPage</a>
+        </c:if>
 
 
 

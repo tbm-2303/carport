@@ -24,31 +24,60 @@ public class RequestMapper {
 
     }
 
-
-    public List<Request> getAllRequest(String status) throws UserException {
+    public Request_obj getRequest(int request_id) throws UserException {
         try (Connection connection = database.connect()) {
-            String sql = "SELECT * FROM request WHERE status_info = ?";
+            String sql = "SELECT * FROM request WHERE request_id = ?";
 
-            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setString(1, status);
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, request_id);
                 ResultSet rs = ps.executeQuery();
-                List<Request> requestList = new ArrayList<>();
-                while (rs.next()) {
+                if (rs.next()) {
                     int carport_id = rs.getInt("carport_id");
                     int user_id = rs.getInt("user_id");
-                    String status_info = rs.getString("status_info");
-                    ResultSet ids = ps.getGeneratedKeys();
-                    ids.next();
-                    int id = ids.getInt(1);
-                    Request requesty = new Request(carport_id, user_id, status_info);
-                    requesty.setRequest_id(id);
-                    requestList.add(requesty);
+                    String status = rs.getString("status_info");
+                    User user = userFacade.getUser(user_id);
+                    Carport carport = carportFacade.getCarport(carport_id);
+                    Request_obj request_obj = new Request_obj(user, carport, status);
+                    request_obj.setRequest_id(request_id);
+                    return request_obj;
                 }
-                return requestList;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         } catch (SQLException ex) {
-            throw new UserException("Connection to database could not be established");
+            ex.printStackTrace();
         }
+        return null;
+    }
+
+    public List<Request_obj> getAllRequest1() throws UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "SELECT * FROM request";
+
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                List<Request_obj> requestList = new ArrayList<>();
+                while (rs.next()) {
+                    int request_id = rs.getInt("request_id");
+                    int carport_id = rs.getInt("carport_id");
+                    int user_id = rs.getInt("user_id");
+                    String status = rs.getString("status_info");
+                    User user = userFacade.getUser(user_id);
+                    Carport carport = carportFacade.getCarport(carport_id);
+                    Request_obj request_obj = new Request_obj(user, carport, status);
+                    request_obj.setRequest_id(request_id);
+                    requestList.add(request_obj);
+                }
+                return requestList;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public List<Request_obj> getAllRequest3(int user_id, String status) throws UserException {
@@ -135,8 +164,53 @@ public class RequestMapper {
         return request;
     }
 
+
+    public Double updateRequestPrice(double price, int request_id) {
+        try (Connection connection = database.connect()) {
+            String sql = "update request set price = ? where request_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setDouble(1, price);
+                ps.setInt(2, request_id);
+            }
+            return price;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public void updateRequestStatus(int request_id, String status) {
+
+        try (Connection connection = database.connect()) {
+            String sql = "update request set status_info = ? where request_id = ?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, status);
+                ps.setInt(2, request_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void markAsFailed(Request_obj request_obj) {
 
+    }
+
+    public void removeRequestFromDB(int request_id) {
+        try (Connection connection = database.connect()) {
+            String sql = "DELETE FROM request WHERE request_id=?";
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, request_id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

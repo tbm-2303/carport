@@ -1,5 +1,6 @@
 package business.services;
 
+import business.entities.Request;
 import business.entities.Request_obj;
 import business.exceptions.UserException;
 import business.persistence.Database;
@@ -30,5 +31,20 @@ public class RequestFacade {
 
     public void markAsFailed(Request_obj request_obj) {
         requestMapper.markAsFailed(request_obj);
+    }
+
+    public Request_obj getRequest(int request_id) throws UserException {
+       return requestMapper.getRequest(request_id);
+    }
+
+    public void updateRequestStatus(int request_id, String status) {
+        requestMapper.updateRequestStatus(request_id,status);
+    }
+    public List<Request_obj> getAllRequest1() throws UserException {
+        return requestMapper.getAllRequest1();
+    }
+
+    public void removeRequestFromDB(int request_id) {
+        requestMapper.removeRequestFromDB(request_id);
     }
 }

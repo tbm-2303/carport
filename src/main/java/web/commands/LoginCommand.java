@@ -41,16 +41,15 @@ public class LoginCommand extends CommandUnprotectedPage {
             session.setAttribute("user", user);
             session.setAttribute("role", user.getRole());
             session.setAttribute("email", email);
-            List<Request_obj> requestList = requestFacade.getAllRequest3(user.getId(), "requested");
-            if (requestList.isEmpty()) {
-                session.setAttribute("requestList_customer_login", null);
-            }
-            session.setAttribute("requestList_customer_login",requestList);
+           // List<Request_obj> requestList = requestFacade.getAllRequest3(user.getId(), "requested");
+
             return "index";
+
 
         } catch (UserException ex) {
             request.setAttribute("error", "Wrong username or password!");
             return "loginpage";
         }
+
     }
 }

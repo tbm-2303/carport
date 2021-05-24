@@ -28,9 +28,24 @@ public class Carport {
     private int shed_width;
     private String roof_type;
     private String info;
+    private boolean hasShed;
+    private boolean hasShed_large;
 
+    public boolean HasShed_large() {
+        return hasShed_large;
+    }
 
+    public void setHasShed_large(boolean hasShed_large) {
+        this.hasShed_large = hasShed_large;
+    }
 
+    public boolean HasShed() {
+        return hasShed;
+    }
+
+    public void setHasShed(boolean hasShed) {
+        this.hasShed = hasShed;
+    }
 
     public int getId() {
         return id;
@@ -113,4 +128,6 @@ public class Carport {
     public void setInfo(String info) {
         this.info = info;
     }
+
+
 }

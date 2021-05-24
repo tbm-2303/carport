@@ -15,62 +15,61 @@
     <jsp:body>
 
         <c:if test="${sessionScope.user.role == 'employee'}">
-            <form action="${pageContext.request.contextPath}/fc/updateCommand" method="post">
+            <form action="${pageContext.request.contextPath}/fc/updateRequestCommand" method="post">
             <table class="table table-success table-striped">
 
                 <thead>
                 <tr>
-                    <th scope="col">Request ID</th>
-                    <th scope="col">User email</th>
+                    <th scope="col">status_index</th>
+                    <th scope="col">RequestID</th>
+                    <th scope="col">CarportID</th>
+                    <th scope="col">UserID</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Width</th>
                     <th scope="col">Length</th>
                     <th scope="col">ShedLength</th>
                     <th scope="col">ShedWidth</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Selling Price</th>
+                    <th scope="col">NewPrice</th>
+
                 </tr>
                 </thead>
                 <c:forEach var="var" items="${sessionScope.requestList_admin}" varStatus="status">
                     <tr>
-                        <td>${var.request_id}</td>
-                        <td>${var.user.email}</td>
+                        <td> ${status.index}</td>
+                        <td> ${var.request_id}</td>
+                        <td> ${var.carport.id}</td>
+                        <td> ${var.user.id}</td>
+                        <td> ${var.status}</td>
+                        <td> ${var.carport.price}</td>
                         <td>${var.carport.width}</td>
                         <td>${var.carport.length}</td>
-                        <td>${var.carport.shed_length}</td>
                         <td>${var.carport.shed_width}</td>
-                        <td>${var.status}</td>
-                        <td>${var.carport.price}</td>
+                        <td>${var.carport.shed_length}</td>
+                        <td><label for="new_price"></label><input type="number" class="" id="new_price" name="new_price" min="0" step="1"
+                                                              value=""></td>
                         <td>
-                            <label for="selling_price"></label><input type="number" class="" id="selling_price"
-                                                                      name="selling_price" min="0" step="1"
-                                                                      value="${var.carport.selling_price}">
-                        </td>
 
-                        <td>
-                            <button type="submit" class=" btn btn-danger" name="remove"
-                                    value="${var.request_id}">Remove
+                            <button type="submit" class=" btn btn-danger" name="update"
+                                    value="${var.request_id}">Finalize changes(${var.request_id})
                             </button>
-                        </td>
-                        <td>
-                            <button type="submit" class=" btn btn-danger" name="confirm"
-                                    value="${var.request_id}">confirm
-                            </button>
-                        </td>
+
+                    </td>
 
                     </tr>
                 </c:forEach>
             </table>
-
-            <div class="card">
-                <c:if test="${sessionScope.requestList22 != null}">
-                    <button type="submit" class="btn btn-outline-primary" name="updateCommand"
-                            value="UpdateRequestCommand">Update data
-                    </button>
-                </c:if>
-            </div>
             </form>
         </c:if>
+
+
+
+
+
+
+
+
+
 
         <c:if test="${requestScope.error != null}">
             <p style="color: red">${requestScope.error}</p>

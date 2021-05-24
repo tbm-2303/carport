@@ -36,6 +36,7 @@ public class Requestpage extends CommandProtectedPage {
         try {
             HttpSession session = request.getSession();
             List<Request_obj> requestList = requestFacade.getAllRequest2("requested");
+
             session.setAttribute("requestList_admin", requestList);
             return pageToShow;
 
