@@ -41,9 +41,10 @@ public class CreateOrderCommand extends CommandProtectedPage {
                 Timestamp ts = new Timestamp(time);
                 requestFacade.updateRequestStatus(request_obj.getRequest_id(), "ordered");
                 request_obj.setStatus("ordered");
-                orderFacade.createOrder(request_obj, ts);
+                Order order = orderFacade.createOrder(request_obj, ts);
+                request.setAttribute("comfirmation_object", order);
             }
-            return "index";
+            return "index";//return confirmationPage
         } catch (UserException ex) {
             request.setAttribute("error", ex.getMessage());
             return "index";

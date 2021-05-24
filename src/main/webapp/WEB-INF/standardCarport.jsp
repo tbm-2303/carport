@@ -26,11 +26,23 @@
                         Shed Dimensions:${carport.shed_width}cm x ${carport.shed_length}cm<br>
                     </c:if>
                     Standard INFO:skal skrives her<br>
+                    MANGLER IMG FOR CARPORT**<br>
                     <button type="submit" name="getCarport" id="getCarport" value="${carport.id}" style="outline-color: #0909b8"> </button><br><br>
                 </c:forEach>
             </c:if>
-
         </c:if>
+
+
+
+
+        <c:if test="${sessionScope.role == 'customer' }">
+            _______________________________________________________________________________________________________________________________________________________________________________________________
+            <h6> CARPORT EFTER EGNE MÅL</h6>
+            <p><a href="${pageContext.request.contextPath}/fc/sendrequestpage">order a custom carport</a>
+            _______________________________________________________________________________________________________________________________________________________________________________________________
+        </c:if>
+
+
 
 
         <c:if test="${requestScope.error != null }">

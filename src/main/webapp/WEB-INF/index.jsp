@@ -30,20 +30,20 @@
         </c:if>
 
 
-
+        <c:if test="${requestScope.request_customer != null}">
+            <h7> Du har lige oprettet en forespørgsel. Gå til 'requests' i navigations bjælken for at se information on din request.</h7><br>
+            <h7> Du kan ikke oprette en nu forespørgsel før denne request er blevet bearbejdet.</h7><br>
+            <h7> Du kan altid ringe for at ændre i din request eller for general hjælp.</h7><br>
+        </c:if>
 
 
         <c:if test="${sessionScope.role == 'customer' }">
-            <p><a href="${pageContext.request.contextPath}/fc/sendrequestpage">order a custom carport</a>
+            <h6> MANGLER** Carport dropdown menu </h6>
+            <p><a href="${pageContext.request.contextPath}/fc/standardcarportpage">med flat tag</a><br>
+            <p><a href="${pageContext.request.contextPath}/fc/standardcarportpage">med rejst tag</a><br>
+            <p><a href="${pageContext.request.contextPath}/fc/sendrequestpage">CARPORT EFTER EGNE MÅL</a><br>
         </c:if>
 
-        <c:if test="${sessionScope.role == 'customer' }">
-            <p><a href="${pageContext.request.contextPath}/fc/standardcarportpage">order a standard carport</a>
-        </c:if>
-
-        <c:if test="${sessionScope.role == 'customer' }">
-            <p><a href="${pageContext.request.contextPath}/fc/viewmyrequest">View my requests </a>
-        </c:if>
 
 
 

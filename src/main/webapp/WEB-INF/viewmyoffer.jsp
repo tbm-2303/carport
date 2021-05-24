@@ -53,7 +53,7 @@
                 </c:forEach>
             </table>
 
-            Her skal der være en tegning
+            MANGLER EN TEGNING**
             <br><br><br><br>
 
 

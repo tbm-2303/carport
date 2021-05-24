@@ -94,7 +94,7 @@ public class SendRequest extends CommandUnprotectedPage {
 
             if (shed_width > width || shed_length > length) {
                 request.setAttribute("error", "You cant select a shed width or shed width greater then the length or width of the carport.");
-                return "index";
+                return "sendRequest";
             }
             if (requestList.isEmpty()) {
 
@@ -112,17 +112,16 @@ public class SendRequest extends CommandUnprotectedPage {
                 //request
                 Request_obj request1 = requestFacade.createRequest(new Request_obj(user, carport, "requested"));
                 requestList.add(request1);
-                //session.setAttribute("requestList_customer", requestList);
+                request.setAttribute("request_customer",request1);
             } else {
                 request.setAttribute("error", "You already made a request for a custom carport."+
                         "You cannot make another request before the your current request is resolved");
             }
-            return "index";
-
+            return pageToShow;
 
         } catch (UserException e) {
-            request.setAttribute("error", "1");
-            return "loginpage";
+            request.setAttribute("error", e.getMessage());
+            return pageToShow;
         }
     }
 }
