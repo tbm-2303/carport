@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class StandardCarportPage extends CommandProtectedPage {
-    private CarportFacade carportFacade;
+    private final CarportFacade carportFacade;
 
 
     public StandardCarportPage(String pageToShow, String role) {
@@ -24,11 +24,7 @@ public class StandardCarportPage extends CommandProtectedPage {
         HttpSession session = request.getSession();
         List<Carport> carportList = carportFacade.getAllStandardCarports(2);
         for (Carport c : carportList) {
-           if (c.getShed_length() != 0 || c.getShed_width() != 0){
-               c.setHasShed(true);
-           }
-
-           c.setHasShed(false);
+            c.setHasShed(c.getShed_length() > 0 && c.getShed_width() > 0);
         }
         request.setAttribute("carportList_standard", carportList);
         return pageToShow;

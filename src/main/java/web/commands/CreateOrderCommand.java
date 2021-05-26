@@ -44,7 +44,7 @@ public class CreateOrderCommand extends CommandProtectedPage {
                 Order order = orderFacade.createOrder(request_obj, ts);
                 request.setAttribute("comfirmation_object", order);
             }
-            return "index";//return confirmationPage
+            return "index";//order confirmation page
         } catch (UserException ex) {
             request.setAttribute("error", ex.getMessage());
             return "index";

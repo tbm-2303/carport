@@ -19,43 +19,35 @@
             <table class="table table-success table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">Request ID</th>
-                    <th scope="col">User email</th>
+                    <th scope="col">CarportID</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Width</th>
                     <th scope="col">Length</th>
                     <th scope="col">ShedLength</th>
                     <th scope="col">ShedWidth</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Price</th>
                 </tr>
                 </thead>
-                <c:forEach var="var" items="${requestScope.requestList_customer}" varStatus="status">
-                    <c:if test="${requestScope.requestList_customer.get(status.index).user.id == sessionScope.user.id}">
-                        <tr>
-                            <td>${var.request_id}</td>
-                            <td>${var.user.email}</td>
-                            <td>${var.carport.width}</td>
-                            <td>${var.carport.length}</td>
-                            <td>${var.carport.shed_length}</td>
-                            <td>${var.carport.shed_width}</td>
-                            <td>${var.status}</td>
-                            <td>${var.carport.price}</td>
-                            <td>
-                                <form action="${pageContext.request.contextPath}/fc/createorder" method="post">
-                                    <button type="submit" class=" btn btn-danger" name="accept"
-                                            value="${var.request_id}">Accept offer -> ${var.request_id}
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-
+                <tr>
+                    <td>${sessionScope.Selected_Carport.id}</td>
+                    <td>${sessionScope.Selected_Carport.price}</td>
+                    <td>${sessionScope.Selected_Carport.width}</td>
+                    <td>${sessionScope.Selected_Carport.length}</td>
+                    <c:if test="${sessionScope.Selected_Carport.HasShed() == true}">
+                        <td>${sessionScope.Selected_Carport.shed_length}</td>
+                        <td>${sessionScope.Selected_Carport.shed_width}</td>
                     </c:if>
-                    </table>
-                </c:forEach>
+
+                    <td>
+                        <form action="${pageContext.request.contextPath}/fc/createorder_standard" method="post">
+                            <button type="submit" class=" btn btn-danger" name="accept"
+                                    value="${sessionScope.Selected_Carport.id}">Accept (GÅ TIL BETALING?) -> ${sessionScope.user.id}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
         </c:if>
-
-
-
 
 
         <c:if test="${not empty requestScope.requestList_customer}">

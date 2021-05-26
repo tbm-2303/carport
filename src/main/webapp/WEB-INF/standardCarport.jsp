@@ -27,7 +27,9 @@
                     </c:if>
                     Standard INFO:skal skrives her<br>
                     MANGLER IMG FOR CARPORT**<br>
+                    <form action="${pageContext.request.contextPath}/fc/sendrequest_standard" method="post">
                     <button type="submit" name="getCarport" id="getCarport" value="${carport.id}" style="outline-color: #0909b8"> </button><br><br>
+                    </form>
                 </c:forEach>
             </c:if>
         </c:if>

@@ -163,7 +163,27 @@ public class RequestMapper {
         }
         return request;
     }
+    public Request_obj CreateRequest_standard(Request_obj request) throws UserException {
+        try (Connection connection = database.connect()) {
+            String sql = "INSERT INTO request (carport_id, user_id, status_info) VALUES (?,?,?)";
 
+            try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setDouble(1, request.getCarport().getId());
+                ps.setDouble(2, request.getUser().getId());
+                ps.setString(3, "ordered");
+                ps.executeUpdate();
+                ResultSet ids = ps.getGeneratedKeys();
+                ids.next();
+                int id = ids.getInt(1);
+                request.setRequest_id(id);
+            } catch (SQLException ex) {
+                throw new UserException(ex.getMessage());
+            }
+        } catch (SQLException ex) {
+            throw new UserException(ex.getMessage());
+        }
+        return request;
+    }
 
     public Double updateRequestPrice(double price, int request_id) {
         try (Connection connection = database.connect()) {

@@ -15,6 +15,7 @@ public class Carport {
         this.roof_type = roof_type;
         this.info = info;
         selling_price = 0;
+        hasShed=false;
     }
 
     private int id;
@@ -29,15 +30,18 @@ public class Carport {
     private String roof_type;
     private String info;
     private boolean hasShed;
-    private boolean hasShed_large;
 
-    public boolean HasShed_large() {
-        return hasShed_large;
+    private String svg;
+
+
+    public String getSvg() {
+        return svg;
     }
 
-    public void setHasShed_large(boolean hasShed_large) {
-        this.hasShed_large = hasShed_large;
+    public void setSvg(String svg) {
+        this.svg = svg;
     }
+
 
     public boolean HasShed() {
         return hasShed;

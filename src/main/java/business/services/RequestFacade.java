@@ -47,4 +47,9 @@ public class RequestFacade {
     public void removeRequestFromDB(int request_id) {
         requestMapper.removeRequestFromDB(request_id);
     }
+
+
+    public Request_obj CreateRequest_standard(Request_obj request) throws UserException {
+        return requestMapper.CreateRequest_standard(request);
+    }
 }

@@ -36,6 +36,10 @@ public abstract class Command {
         commands.put("viewuserpage", new CustomerPage("viewcustomers", "employee"));
         commands.put("updateRequestCommand", new UpdateRequestCommand("viewrequests", "employee"));
         commands.put("standardcarportpage", new StandardCarportPage("standardCarport", "customer"));
+        commands.put("ViewSketch", new ViewSketch("sketchpage", "customer"));
+        commands.put("sendrequest_standard", new SendRequest_standard("index", "customer"));
+        commands.put("getbasket", new GetBasket("basketpage","customer"));
+        commands.put("createorder_standard", new CreateOrderStandard("index", "customer"));
 
 
         //commands.put("showrequstpage", new ShowRequestpage("viewrequests", "employee"));
